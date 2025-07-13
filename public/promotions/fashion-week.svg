@@ -1,0 +1,27 @@
+<svg width="1200" height="500" viewBox="0 0 1200 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="500" fill="url(#grad2)"/>
+  
+  <!-- Fashion Items -->
+  <ellipse cx="950" cy="250" rx="40" ry="80" fill="#ffffff" opacity="0.2"/>
+  <rect x="930" y="200" width="40" height="60" rx="5" fill="#ffffff" opacity="0.3"/>
+  <path d="M920 180 Q950 160 980 180 L980 220 Q950 200 920 220 Z" fill="#ffffff" opacity="0.1"/>
+  
+  <!-- Accessories -->
+  <circle cx="850" cy="150" r="25" fill="#ffffff" opacity="0.2"/>
+  <rect x="830" y="130" width="40" height="40" rx="20" fill="#ffffff" opacity="0.3"/>
+  
+  <!-- Text Content -->
+  <text x="100" y="150" fill="#ffffff" font-family="Arial, sans-serif" font-size="48" font-weight="bold">FASHION WEEK</text>
+  <text x="100" y="200" fill="#fff0f5" font-family="Arial, sans-serif" font-size="32">New Arrivals</text>
+  <text x="100" y="240" fill="#fff0f5" font-family="Arial, sans-serif" font-size="20">Trendy Clothes &amp; Accessories</text>
+  
+  <!-- CTA Button -->
+  <rect x="100" y="280" width="180" height="50" rx="25" fill="#ffffff"/>
+  <text x="190" y="310" fill="#f5576c" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Explore</text>
+</svg>

@@ -24,3 +24,72 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Custom placeholder styles for better visibility */
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important; /* gray-500 */
+  opacity: 1 !important;
+  font-weight: 400;
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  color: #9ca3af !important; /* gray-400 */
+  opacity: 0.8 !important;
+}
+
+/* Ensure input text is always visible with highest specificity */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+textarea,
+select {
+  color: #111827 !important; /* gray-900 - very dark text */
+  background-color: #ffffff !important; /* white background */
+  -webkit-text-fill-color: #111827 !important; /* For webkit browsers */
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+  color: #111827 !important; /* gray-900 - very dark text */
+  background-color: #ffffff !important; /* white background */
+  -webkit-text-fill-color: #111827 !important; /* For webkit browsers */
+}
+
+/* Additional specificity for form inputs */
+.admin-input,
+form input[type="text"],
+form input[type="number"],
+form input[type="email"],
+form input[type="url"],
+form textarea,
+form select {
+  color: #111827 !important; /* gray-900 - very dark text */
+  background-color: #ffffff !important; /* white background */
+  -webkit-text-fill-color: #111827 !important; /* For webkit browsers */
+  font-weight: 500 !important; /* Make text slightly bolder for better visibility */
+}
+
+/* Extra specificity for admin inputs */
+.admin-input:focus {
+  color: #111827 !important; /* gray-900 - very dark text */
+  background-color: #ffffff !important; /* white background */
+  -webkit-text-fill-color: #111827 !important; /* For webkit browsers */
+  font-weight: 500 !important;
+}
+
+/* Ensure select options are visible */
+select option {
+  color: #374151 !important; /* gray-700 */
+  background-color: #ffffff !important; /* white background */
+}
+
+select option[value=""] {
+  color: #6b7280 !important; /* gray-500 */
+}

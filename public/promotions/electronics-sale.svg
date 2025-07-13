@@ -1,0 +1,38 @@
+<svg width="1200" height="500" viewBox="0 0 1200 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="electronicsBg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4338ca"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="500" fill="url(#electronicsBg)"/>
+  
+  <!-- Decorative Electronics Icons -->
+  <g opacity="0.1">
+    <!-- Smartphone -->
+    <rect x="850" y="150" width="60" height="100" rx="8" fill="#ffffff"/>
+    <rect x="860" y="160" width="40" height="80" rx="4" fill="#ffffff"/>
+    
+    <!-- Headphones -->
+    <circle cx="950" cy="180" r="25" fill="#ffffff"/>
+    <circle cx="950" cy="180" r="15" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <path d="M925 180 Q925 160 950 160 Q975 160 975 180" stroke="#ffffff" stroke-width="4" fill="none"/>
+    
+    <!-- Laptop -->
+    <rect x="880" y="280" width="80" height="50" rx="4" fill="#ffffff"/>
+    <rect x="885" y="285" width="70" height="35" rx="2" fill="#ffffff"/>
+  </g>
+  
+  <!-- Main Content -->
+  <g>
+    <text x="80" y="180" fill="#ffffff" font-family="Arial, sans-serif" font-size="54" font-weight="bold">SUMMER SALE</text>
+    <text x="80" y="230" fill="#e0e7ff" font-family="Arial, sans-serif" font-size="36" font-weight="600">Up to 50% OFF</text>
+    <text x="80" y="270" fill="#c7d2fe" font-family="Arial, sans-serif" font-size="22">Electronics and Gadgets</text>
+    
+    <!-- CTA Button -->
+    <rect x="80" y="320" width="200" height="55" rx="27" fill="#ffffff"/>
+    <text x="180" y="355" fill="#4338ca" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">Shop Electronics</text>
+  </g>
+</svg>

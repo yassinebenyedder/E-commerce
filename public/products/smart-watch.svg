@@ -1,0 +1,8 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#F0F9FF"/>
+  <rect x="100" y="120" width="200" height="160" rx="20" fill="#0EA5E9"/>
+  <rect x="120" y="140" width="160" height="80" rx="10" fill="#0284C7"/>
+  <circle cx="200" cy="180" r="25" fill="#0369A1"/>
+  <rect x="140" y="240" width="120" height="20" rx="10" fill="#075985"/>
+  <text x="200" y="350" text-anchor="middle" fill="#0C4A6E" font-family="Arial" font-size="16" font-weight="500">Smart Watch</text>
+</svg>
