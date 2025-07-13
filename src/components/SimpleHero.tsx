@@ -104,12 +104,9 @@ export default function SimpleHero() {
           {/* Content overlay */}
           <div className="flex items-center justify-start h-full px-12 md:px-16">
             <div className="text-white max-w-2xl">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
                 {currentPromo.title}
               </h1>
-              <p className="text-lg md:text-xl mb-8 opacity-90 leading-relaxed">
-                {currentPromo.subtitle}
-              </p>
               <Link
                 href={currentPromo.ctaLink}
                 className="inline-block bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-100 hover:shadow-lg transform hover:scale-105 transition-all duration-300 shadow-lg"

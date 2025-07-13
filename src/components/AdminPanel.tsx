@@ -756,35 +756,56 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Alerts */}
         {error && (
-          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-3 py-2 sm:px-4 sm:py-3 rounded-md text-sm">
             {error}
           </div>
         )}
         {success && (
-          <div className="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
+          <div className="mb-4 bg-green-50 border border-green-200 text-green-700 px-3 py-2 sm:px-4 sm:py-3 rounded-md text-sm">
             {success}
           </div>
         )}
 
-        {/* Tabs */}
+        {/* Mobile Tab Selector */}
+        <div className="sm:hidden mb-4">
+          <select
+            value={activeTab}
+            onChange={(e) => setActiveTab(e.target.value as 'products' | 'categories' | 'orders' | 'promotions' | 'admins')}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-sm font-medium"
+          >
+            <option value="products">Produits</option>
+            <option value="categories">Catégories</option>
+            <option value="orders">Commandes</option>
+            <option value="promotions">Promotions</option>
+            <option value="admins">Administrateurs</option>
+          </select>
+        </div>
+
+        {/* Desktop Tabs */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
           <div className="border-b border-gray-200">
-            <nav className="flex space-x-8 px-6">
-              {['products', 'categories', 'orders', 'promotions', 'admins'].map((tab) => (
+            <nav className="hidden sm:flex space-x-8 px-6">
+              {[
+                { key: 'products', label: 'Produits' },
+                { key: 'categories', label: 'Catégories' },
+                { key: 'orders', label: 'Commandes' },
+                { key: 'promotions', label: 'Promotions' },
+                { key: 'admins', label: 'Administrateurs' }
+              ].map((tab) => (
                 <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab as 'products' | 'categories' | 'orders' | 'promotions' | 'admins')}
-                  className={`py-4 px-2 text-sm font-medium capitalize border-b-2 ${
-                    activeTab === tab
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key as 'products' | 'categories' | 'orders' | 'promotions' | 'admins')}
+                  className={`py-4 px-2 text-sm font-medium border-b-2 ${
+                    activeTab === tab.key
                       ? 'border-blue-500 text-blue-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
-                  {tab}
+                  {tab.label}
                 </button>
               ))}
             </nav>
@@ -792,36 +813,107 @@ export default function AdminPanel() {
 
           {/* Products Tab */}
           {activeTab === 'products' && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Products</h2>
+            <div className="p-3 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Produits</h2>
                 <button
                   onClick={() => setShowProductModal(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                  className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
                 >
-                  Add Product
+                  Ajouter un Produit
                 </button>
               </div>
 
-              {/* Products Table */}
-              <div className="overflow-x-auto">
+              {/* Mobile Cards View */}
+              <div className="sm:hidden space-y-4">
+                {loading ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Chargement des produits...
+                  </div>
+                ) : products.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Aucun produit trouvé
+                  </div>
+                ) : (
+                  products.map((product) => {
+                    const prices = product.variants.map(v => v.price);
+                    const minPrice = Math.min(...prices);
+                    const maxPrice = Math.max(...prices);
+                    
+                    return (
+                      <div key={product._id} className="bg-white border border-gray-200 rounded-lg p-4">
+                        <div className="flex items-start space-x-3">
+                          <Image
+                            className="h-16 w-16 rounded-md object-cover flex-shrink-0"
+                            src={product.image}
+                            alt={product.name}
+                            width={64}
+                            height={64}
+                            unoptimized={product.image.endsWith('.svg')}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-sm font-medium text-gray-900 truncate">
+                              {product.name}
+                            </h3>
+                            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                              {product.description}
+                            </p>
+                            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                              <span className="text-gray-600">
+                                {product.category}
+                              </span>
+                              <span className="text-gray-600">
+                                {minPrice === maxPrice ? `${minPrice.toFixed(2)} TND` : `${minPrice.toFixed(2)} - ${maxPrice.toFixed(2)} TND`}
+                              </span>
+                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                product.inStock !== false
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-red-100 text-red-800'
+                              }`}>
+                                {product.inStock !== false ? 'En Stock' : 'Rupture'}
+                              </span>
+                            </div>
+                            <div className="mt-3 flex space-x-2">
+                              <button
+                                onClick={() => handleEditProduct(product)}
+                                className="flex-1 bg-blue-50 text-blue-600 px-3 py-1 rounded text-xs font-medium hover:bg-blue-100"
+                              >
+                                Modifier
+                              </button>
+                              <button
+                                onClick={() => handleDeleteProduct(product._id!)}
+                                className="flex-1 bg-red-50 text-red-600 px-3 py-1 rounded text-xs font-medium hover:bg-red-100"
+                              >
+                                Supprimer
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Product
+                        Produit
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Category
+                        Catégorie
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Price Range
+                        Prix
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Variants
+                        Variantes
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
+                        Statut
                       </th>
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -832,13 +924,13 @@ export default function AdminPanel() {
                     {loading ? (
                       <tr>
                         <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                          Loading products...
+                          Chargement des produits...
                         </td>
                       </tr>
                     ) : products.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                          No products found
+                          Aucun produit trouvé
                         </td>
                       </tr>
                     ) : (
@@ -873,10 +965,10 @@ export default function AdminPanel() {
                               {product.category}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              ${minPrice === maxPrice ? minPrice.toFixed(2) : `${minPrice.toFixed(2)} - ${maxPrice.toFixed(2)}`}
+                              {minPrice === maxPrice ? `${minPrice.toFixed(2)} TND` : `${minPrice.toFixed(2)} - ${maxPrice.toFixed(2)} TND`}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {product.variants.length} variant{product.variants.length !== 1 ? 's' : ''}
+                              {product.variants.length} variante{product.variants.length !== 1 ? 's' : ''}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
@@ -884,7 +976,7 @@ export default function AdminPanel() {
                                   ? 'bg-green-100 text-green-800'
                                   : 'bg-red-100 text-red-800'
                               }`}>
-                                {product.inStock !== false ? 'In Stock' : 'Out of Stock'}
+                                {product.inStock !== false ? 'En Stock' : 'Rupture'}
                               </span>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -892,13 +984,13 @@ export default function AdminPanel() {
                                 onClick={() => handleEditProduct(product)}
                                 className="text-blue-600 hover:text-blue-900 mr-4"
                               >
-                                Edit
+                                Modifier
                               </button>
                               <button
                                 onClick={() => handleDeleteProduct(product._id!)}
                                 className="text-red-600 hover:text-red-900"
                               >
-                                Delete
+                                Supprimer
                               </button>
                             </td>
                           </tr>
@@ -913,36 +1005,100 @@ export default function AdminPanel() {
 
           {/* Categories Tab */}
           {activeTab === 'categories' && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Categories</h2>
+            <div className="p-3 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Catégories</h2>
                 <button
                   onClick={() => setShowCategoryModal(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                  className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
                 >
-                  Add Category
+                  Ajouter une Catégorie
                 </button>
               </div>
 
-              {/* Categories Table */}
-              <div className="overflow-x-auto">
+              {/* Mobile Cards View */}
+              <div className="sm:hidden space-y-4">
+                {loading ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Chargement des catégories...
+                  </div>
+                ) : categories.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Aucune catégorie trouvée
+                  </div>
+                ) : (
+                  categories.map((category) => (
+                    <div key={category._id} className="bg-white border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start space-x-3">
+                        <Image
+                          className="h-16 w-16 rounded-md object-cover flex-shrink-0"
+                          src={category.image}
+                          alt={category.title}
+                          width={64}
+                          height={64}
+                          unoptimized={category.image.endsWith('.svg')}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm font-medium text-gray-900">
+                            {category.title}
+                          </h3>
+                          {category.description && (
+                            <p className="text-xs text-gray-500 mt-1">
+                              {category.description}
+                            </p>
+                          )}
+                          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                            <span className={`px-2 py-1 rounded-full font-medium ${
+                              category.isActive
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}>
+                              {category.isActive ? 'Active' : 'Inactive'}
+                            </span>
+                            <span className="text-gray-500">
+                              Ordre: {category.order}
+                            </span>
+                          </div>
+                          <div className="mt-3 flex space-x-2">
+                            <button
+                              onClick={() => handleEditCategory(category)}
+                              className="flex-1 bg-blue-50 text-blue-600 px-3 py-1 rounded text-xs font-medium hover:bg-blue-100"
+                            >
+                              Modifier
+                            </button>
+                            <button
+                              onClick={() => handleDeleteCategory(category._id)}
+                              className="flex-1 bg-red-50 text-red-600 px-3 py-1 rounded text-xs font-medium hover:bg-red-100"
+                            >
+                              Supprimer
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Category
+                        Catégorie
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Description
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Order
+                        Ordre
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
+                        Statut
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Created
+                        Créée
                       </th>
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -953,13 +1109,13 @@ export default function AdminPanel() {
                     {loading ? (
                       <tr>
                         <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                          Loading categories...
+                          Chargement des catégories...
                         </td>
                       </tr>
                     ) : categories.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                          No categories found
+                          Aucune catégorie trouvée
                         </td>
                       </tr>
                     ) : (
@@ -984,7 +1140,7 @@ export default function AdminPanel() {
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-900">
                             <div className="max-w-48 truncate">
-                              {category.description || 'No description'}
+                              {category.description || 'Aucune description'}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -1000,20 +1156,20 @@ export default function AdminPanel() {
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {new Date(category.createdAt || '').toLocaleDateString()}
+                            {new Date(category.createdAt || '').toLocaleDateString('fr-FR')}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button
                               onClick={() => handleEditCategory(category)}
                               className="text-blue-600 hover:text-blue-900 mr-4"
                             >
-                              Edit
+                              Modifier
                             </button>
                             <button
                               onClick={() => handleDeleteCategory(category._id)}
                               className="text-red-600 hover:text-red-900"
                             >
-                              Delete
+                              Supprimer
                             </button>
                           </td>
                         </tr>
@@ -1027,33 +1183,111 @@ export default function AdminPanel() {
 
           {/* Orders Tab */}
           {activeTab === 'orders' && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Orders Management</h2>
+            <div className="p-3 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Gestion des Commandes</h2>
                 <div className="text-sm text-gray-500">
-                  Total Orders: {orders.length}
+                  Total: {orders.length} commande{orders.length !== 1 ? 's' : ''}
                 </div>
               </div>
 
-              {/* Orders Table */}
-              <div className="overflow-x-auto">
+              {/* Mobile Cards View */}
+              <div className="sm:hidden space-y-4">
+                {loading ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Chargement des commandes...
+                  </div>
+                ) : orders.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Aucune commande trouvée
+                  </div>
+                ) : (
+                  orders.map((order) => (
+                    <div key={order._id} className="bg-white border border-gray-200 rounded-lg p-4">
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <h3 className="text-sm font-medium text-gray-900">
+                            #{order.orderNumber}
+                          </h3>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {new Date(order.createdAt).toLocaleDateString('fr-FR')}
+                          </p>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          order.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                          order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
+                          order.status === 'confirmed' ? 'bg-yellow-100 text-yellow-800' :
+                          order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                          'bg-gray-100 text-gray-600'
+                        }`}>
+                          {order.status === 'delivered' ? 'Livré' :
+                           order.status === 'shipped' ? 'Expédié' :
+                           order.status === 'confirmed' ? 'Confirmé' :
+                           order.status === 'cancelled' ? 'Annulé' :
+                           'En attente'}
+                        </span>
+                      </div>
+                      
+                      <div className="space-y-2 text-xs text-gray-600">
+                        <div>
+                          <span className="font-medium">Client:</span> {order.clientName}
+                        </div>
+                        <div>
+                          <span className="font-medium">Email:</span> {order.clientEmail}
+                        </div>
+                        <div>
+                          <span className="font-medium">Articles:</span> {order.products.length}
+                        </div>
+                        <div>
+                          <span className="font-medium">Total:</span> {order.total.toFixed(2)} TND
+                        </div>
+                      </div>
+
+                      <div className="mt-3 flex space-x-2">
+                        <button
+                          onClick={() => handleViewOrder(order)}
+                          className="flex-1 bg-blue-50 text-blue-600 px-3 py-1 rounded text-xs font-medium hover:bg-blue-100"
+                        >
+                          Voir Détails
+                        </button>
+                        <button
+                          onClick={() => handleUpdateOrderStatus(order._id, 
+                            order.status === 'pending' ? 'confirmed' :
+                            order.status === 'confirmed' ? 'shipped' :
+                            order.status === 'shipped' ? 'delivered' : order.status
+                          )}
+                          className="flex-1 bg-green-50 text-green-600 px-3 py-1 rounded text-xs font-medium hover:bg-green-100"
+                          disabled={order.status === 'delivered' || order.status === 'cancelled'}
+                        >
+                          {order.status === 'pending' ? 'Confirmer' :
+                           order.status === 'confirmed' ? 'Expédier' :
+                           order.status === 'shipped' ? 'Livrer' : 'Terminé'}
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Order Details
+                        Détails Commande
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Customer
+                        Client
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Items
+                        Articles
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Total
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
+                        Statut
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Date
@@ -1067,13 +1301,13 @@ export default function AdminPanel() {
                     {loading ? (
                       <tr>
                         <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
-                          Loading orders...
+                          Chargement des commandes...
                         </td>
                       </tr>
                     ) : orders.length === 0 ? (
                       <tr>
                         <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
-                          No orders found
+                          Aucune commande trouvée
                         </td>
                       </tr>
                     ) : (
@@ -1106,7 +1340,7 @@ export default function AdminPanel() {
                           </td>
                           <td className="px-6 py-4">
                             <div className="text-sm text-gray-900">
-                              {order.products.length} item{order.products.length !== 1 ? 's' : ''}
+                              {order.products.length} article{order.products.length !== 1 ? 's' : ''}
                             </div>
                             <div className="text-sm text-gray-500">
                               {order.products.slice(0, 2).map((product, index) => (
@@ -1116,13 +1350,13 @@ export default function AdminPanel() {
                               ))}
                               {order.products.length > 2 && (
                                 <div className="text-xs text-gray-400">
-                                  +{order.products.length - 2} more
+                                  +{order.products.length - 2} autre{order.products.length - 2 > 1 ? 's' : ''}
                                 </div>
                               )}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            ${order.total.toFixed(2)}
+                            {order.total.toFixed(2)} TND
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <select
@@ -1130,28 +1364,28 @@ export default function AdminPanel() {
                               onChange={(e) => handleUpdateOrderStatus(order._id, e.target.value)}
                               className={`text-xs font-semibold rounded-full px-2 py-1 border-0 focus:ring-2 focus:ring-blue-500 ${getStatusColor(order.status)}`}
                             >
-                              <option value="pending">Pending</option>
-                              <option value="confirmed">Confirmed</option>
-                              <option value="shipped">Shipped</option>
-                              <option value="delivered">Delivered</option>
-                              <option value="cancelled">Cancelled</option>
+                              <option value="pending">En attente</option>
+                              <option value="confirmed">Confirmé</option>
+                              <option value="shipped">Expédié</option>
+                              <option value="delivered">Livré</option>
+                              <option value="cancelled">Annulé</option>
                             </select>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {new Date(order.createdAt).toLocaleDateString()}
+                            {new Date(order.createdAt).toLocaleDateString('fr-FR')}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button
                               onClick={() => handleViewOrder(order)}
                               className="text-blue-600 hover:text-blue-900 mr-4"
                             >
-                              View
+                              Voir
                             </button>
                             <button
                               onClick={() => handleDeleteOrder(order._id)}
                               className="text-red-600 hover:text-red-900"
                             >
-                              Delete
+                              Supprimer
                             </button>
                           </td>
                         </tr>
@@ -1165,19 +1399,81 @@ export default function AdminPanel() {
 
           {/* Promotions Tab */}
           {activeTab === 'promotions' && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Promotions</h2>
+            <div className="p-3 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Promotions</h2>
                 <button
                   onClick={() => setShowPromotionModal(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                  className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
                 >
-                  Add Promotion
+                  Ajouter une Promotion
                 </button>
               </div>
 
-              {/* Promotions Table */}
-              <div className="overflow-x-auto">
+              {/* Mobile Cards View */}
+              <div className="sm:hidden space-y-4">
+                {loading ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Chargement des promotions...
+                  </div>
+                ) : promotions.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Aucune promotion trouvée
+                  </div>
+                ) : (
+                  promotions.map((promotion) => (
+                    <div key={promotion._id} className="bg-white border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start space-x-3">
+                        <Image
+                          className="h-16 w-16 rounded-md object-cover flex-shrink-0"
+                          src={promotion.image}
+                          alt={promotion.title}
+                          width={64}
+                          height={64}
+                          unoptimized={promotion.image.endsWith('.svg')}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm font-medium text-gray-900">
+                            {promotion.title}
+                          </h3>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {promotion.subtitle}
+                          </p>
+                          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                            <span className="text-blue-600 font-medium">
+                              {promotion.ctaText}
+                            </span>
+                            <span className={`px-2 py-1 rounded-full font-medium ${
+                              promotion.isActive
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}>
+                              {promotion.isActive ? 'Active' : 'Inactive'}
+                            </span>
+                          </div>
+                          <div className="mt-3 flex space-x-2">
+                            <button
+                              onClick={() => handleEditPromotion(promotion)}
+                              className="flex-1 bg-blue-50 text-blue-600 px-3 py-1 rounded text-xs font-medium hover:bg-blue-100"
+                            >
+                              Modifier
+                            </button>
+                            <button
+                              onClick={() => handleDeletePromotion(promotion._id!)}
+                              className="flex-1 bg-red-50 text-red-600 px-3 py-1 rounded text-xs font-medium hover:bg-red-100"
+                            >
+                              Supprimer
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
@@ -1185,13 +1481,13 @@ export default function AdminPanel() {
                         Promotion
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Call to Action
+                        Appel à l&apos;Action
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
+                        Statut
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Created
+                        Créée
                       </th>
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -1202,13 +1498,13 @@ export default function AdminPanel() {
                     {loading ? (
                       <tr>
                         <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                          Loading promotions...
+                          Chargement des promotions...
                         </td>
                       </tr>
                     ) : promotions.length === 0 ? (
                       <tr>
                         <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                          No promotions found
+                          Aucune promotion trouvée
                         </td>
                       </tr>
                     ) : (
@@ -1252,20 +1548,20 @@ export default function AdminPanel() {
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {new Date(promotion.createdAt || '').toLocaleDateString()}
+                            {new Date(promotion.createdAt || '').toLocaleDateString('fr-FR')}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button
                               onClick={() => handleEditPromotion(promotion)}
                               className="text-blue-600 hover:text-blue-900 mr-4"
                             >
-                              Edit
+                              Modifier
                             </button>
                             <button
                               onClick={() => handleDeletePromotion(promotion._id!)}
                               className="text-red-600 hover:text-red-900"
                             >
-                              Delete
+                              Supprimer
                             </button>
                           </td>
                         </tr>
@@ -1279,36 +1575,92 @@ export default function AdminPanel() {
 
           {/* Admins Tab */}
           {activeTab === 'admins' && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Admins</h2>
+            <div className="p-3 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Administrateurs</h2>
                 <button
                   onClick={() => setShowAdminModal(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                  className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
                 >
-                  Add Admin
+                  Ajouter un Admin
                 </button>
               </div>
 
-              {/* Admins Table */}
-              <div className="overflow-x-auto">
+              {/* Mobile Cards View */}
+              <div className="sm:hidden space-y-4">
+                {loading ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Chargement des administrateurs...
+                  </div>
+                ) : admins.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Aucun administrateur trouvé
+                  </div>
+                ) : (
+                  admins.map((admin) => (
+                    <div key={admin._id} className="bg-white border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="text-sm font-medium text-gray-900">
+                            {admin.name}
+                          </h3>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {admin.email}
+                          </p>
+                          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                            <span className={`px-2 py-1 rounded-full font-medium ${
+                              admin.isActive
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}>
+                              {admin.isActive ? 'Actif' : 'Inactif'}
+                            </span>
+                            {admin.lastLogin && (
+                              <span className="text-gray-500">
+                                Dernière connexion: {new Date(admin.lastLogin).toLocaleDateString('fr-FR')}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-3 flex space-x-2">
+                        <button
+                          onClick={() => handleEditAdmin(admin)}
+                          className="flex-1 bg-blue-50 text-blue-600 px-3 py-1 rounded text-xs font-medium hover:bg-blue-100"
+                        >
+                          Modifier
+                        </button>
+                        <button
+                          onClick={() => handleDeleteAdmin(admin._id!)}
+                          className="flex-1 bg-red-50 text-red-600 px-3 py-1 rounded text-xs font-medium hover:bg-red-100"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Name
+                        Nom
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Email
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
+                        Statut
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Last Login
+                        Dernière Connexion
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Created
+                        Créé
                       </th>
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -1319,13 +1671,13 @@ export default function AdminPanel() {
                     {loading ? (
                       <tr>
                         <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                          Loading admins...
+                          Chargement des administrateurs...
                         </td>
                       </tr>
                     ) : admins.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                          No admins found
+                          Aucun administrateur trouvé
                         </td>
                       </tr>
                     ) : (
@@ -1345,27 +1697,27 @@ export default function AdminPanel() {
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-red-100 text-red-800'
                             }`}>
-                              {admin.isActive ? 'Active' : 'Inactive'}
+                              {admin.isActive ? 'Actif' : 'Inactif'}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {admin.lastLogin ? new Date(admin.lastLogin).toLocaleString() : 'Never'}
+                            {admin.lastLogin ? new Date(admin.lastLogin).toLocaleString('fr-FR') : 'Jamais'}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {new Date(admin.createdAt || '').toLocaleDateString()}
+                            {new Date(admin.createdAt || '').toLocaleDateString('fr-FR')}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button
                               onClick={() => handleEditAdmin(admin)}
                               className="text-blue-600 hover:text-blue-900 mr-4"
                             >
-                              Edit
+                              Modifier
                             </button>
                             <button
                               onClick={() => handleDeleteAdmin(admin._id!)}
                               className="text-red-600 hover:text-red-900"
                             >
-                              Delete
+                              Supprimer
                             </button>
                           </td>
                         </tr>
@@ -1382,11 +1734,11 @@ export default function AdminPanel() {
       {/* Product Modal */}
       {showProductModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
+          <div className="relative top-4 sm:top-20 mx-auto p-3 sm:p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
             <div className="mt-3">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-medium text-gray-900">
-                  {editingProduct ? 'Edit Product' : 'Add New Product'}
+                <h3 className="text-base sm:text-lg font-medium text-gray-900">
+                  {editingProduct ? 'Modifier le Produit' : 'Ajouter un Nouveau Produit'}
                 </h3>
                 <button
                   onClick={closeModal}
@@ -1398,8 +1750,8 @@ export default function AdminPanel() {
                 </button>
               </div>
 
-              <form onSubmit={handleProductSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form onSubmit={handleProductSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   {/* Basic Info */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
