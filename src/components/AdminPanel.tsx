@@ -2089,7 +2089,7 @@ export default function AdminPanel() {
               </div>
 
               <form onSubmit={handleCategorySubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-6">
                   {/* Category Title */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -2105,23 +2105,8 @@ export default function AdminPanel() {
                     />
                   </div>
 
-                  {/* Order */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Display Order
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={categoryForm.order}
-                      onChange={(e) => setCategoryForm({ ...categoryForm, order: parseInt(e.target.value) || 1 })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="1"
-                    />
-                  </div>
-
                   {/* Description */}
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Description
                     </label>
@@ -2135,7 +2120,7 @@ export default function AdminPanel() {
                   </div>
 
                   {/* Category Image */}
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Category Image *
                     </label>
@@ -2198,7 +2183,7 @@ export default function AdminPanel() {
                   </div>
 
                   {/* Status Toggle */}
-                  <div className="md:col-span-2">
+                  <div>
                     <div className="flex items-center">
                       <input
                         type="checkbox"
@@ -2450,21 +2435,6 @@ export default function AdminPanel() {
                       onChange={(e) => setPromotionForm({ ...promotionForm, ctaText: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                       placeholder="e.g., Shop Now, Learn More"
-                    />
-                  </div>
-
-                  {/* Subtitle */}
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Subtitle *
-                    </label>
-                    <textarea
-                      required
-                      rows={2}
-                      value={promotionForm.subtitle}
-                      onChange={(e) => setPromotionForm({ ...promotionForm, subtitle: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Enter promotion subtitle/description"
                     />
                   </div>
 
