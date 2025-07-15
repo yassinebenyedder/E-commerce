@@ -27,12 +27,12 @@ export async function POST(request: NextRequest) {
     await connectDB();
     
     const body = await request.json();
-    const { title, subtitle, image, ctaText, ctaLink, isActive = true } = body;
+    const { title, image, ctaText, ctaLink, isActive = true } = body;
 
     // Validation
-    if (!title || !subtitle || !ctaText || !ctaLink) {
+    if (!title || !ctaText || !ctaLink) {
       return NextResponse.json(
-        { success: false, error: 'Missing required fields: title, subtitle, ctaText, ctaLink' },
+        { success: false, error: 'Missing required fields: title, ctaText, ctaLink' },
         { status: 400 }
       );
     }
@@ -40,7 +40,6 @@ export async function POST(request: NextRequest) {
     // Create new promotion
     const promotion = new Promotion({
       title,
-      subtitle,
       image: image || '/promotions/placeholder.svg',
       ctaText,
       ctaLink,
@@ -70,7 +69,7 @@ export async function PUT(request: NextRequest) {
     await connectDB();
     
     const body = await request.json();
-    const { _id, title, subtitle, image, ctaText, ctaLink, isActive, order } = body;
+    const { _id, title, image, ctaText, ctaLink, isActive, order } = body;
 
     if (!_id) {
       return NextResponse.json(
@@ -81,7 +80,6 @@ export async function PUT(request: NextRequest) {
 
     const updateData: {
       title?: string;
-      subtitle?: string;
       image?: string;
       ctaText?: string;
       ctaLink?: string;
@@ -89,7 +87,6 @@ export async function PUT(request: NextRequest) {
       order?: number;
     } = {};
     if (title) updateData.title = title;
-    if (subtitle) updateData.subtitle = subtitle;
     if (image) updateData.image = image;
     if (ctaText) updateData.ctaText = ctaText;
     if (ctaLink) updateData.ctaLink = ctaLink;

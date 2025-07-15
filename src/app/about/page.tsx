@@ -159,18 +159,12 @@ export default function AboutPage() {
               Rejoignez des milliers de clients satisfaits qui ont fait de ShopHub leur destination shopping préférée. 
               Découvrez des produits extraordinaires et des offres imbattables aujourd&apos;hui !
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Link
                 href="/products"
                 className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 inline-block"
               >
                 Parcourir les Produits
-              </Link>
-              <Link
-                href="/contact"
-                className="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors duration-200 inline-block"
-              >
-                Contactez-nous
               </Link>
             </div>
           </div>

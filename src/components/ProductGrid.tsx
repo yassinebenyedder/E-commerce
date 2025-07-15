@@ -60,9 +60,9 @@ export default function ProductGrid({
 
   if (loading) {
     return (
-      <section className="py-6 sm:py-12">
+      <section className="py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6 sm:mb-12">
+          <div className="text-center mb-6 sm:mb-8">
             {title && (
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4">{title}</h2>
             )}
@@ -99,7 +99,7 @@ export default function ProductGrid({
 
   if (error) {
     return (
-      <section className="py-6 sm:py-12">
+      <section className="py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             {title && (
@@ -122,13 +122,13 @@ export default function ProductGrid({
 
   if (products.length === 0) {
     return (
-      <section className="py-6 sm:py-12">
+      <section className="py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             {title && (
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4">{title}</h2>
             )}
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 sm:p-12">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 sm:p-8">
               <div className="text-gray-400 mb-2 sm:mb-4">
                 <svg className="w-12 h-12 sm:w-16 sm:h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2" />
@@ -146,9 +146,9 @@ export default function ProductGrid({
   }
 
   return (
-    <section className="py-6 sm:py-12">
+    <section className="py-4 sm:py-8">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-6 sm:mb-12">
+        <div className="text-center mb-6 sm:mb-8">
           {title && (
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4">{title}</h2>
           )}

@@ -38,7 +38,7 @@ export default function CategoriesPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-4">
           <div className="text-center">Chargement des catégories...</div>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default function CategoriesPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-white py-16">
+      <div className="bg-white py-8">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Acheter par Catégorie</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -58,8 +58,8 @@ export default function CategoriesPage() {
       </div>
 
       {/* Categories Grid */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
             <Link 
               key={category._id} 
@@ -76,7 +76,7 @@ export default function CategoriesPage() {
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-6">
+                <div className="p-4">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                     {category.title}
                   </h3>
@@ -97,7 +97,7 @@ export default function CategoriesPage() {
         </div>
 
         {categories.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-8">
             <h3 className="text-lg font-medium text-gray-900 mb-2">Aucune catégorie disponible</h3>
             <p className="text-gray-600">Les catégories apparaîtront ici une fois qu&apos;elles auront été ajoutées.</p>
           </div>
@@ -105,26 +105,20 @@ export default function CategoriesPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-blue-600 py-16">
+      <div className="bg-blue-600 py-8">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             Vous ne trouvez pas ce que vous cherchez ?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-blue-100 mb-6 max-w-2xl mx-auto">
             Parcourez tous nos produits ou utilisez notre fonction de recherche pour trouver exactement ce dont vous avez besoin.
           </p>
-          <div className="space-x-4">
+          <div className="text-center">
             <Link
               href="/products"
               className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
             >
               Voir Tous les Produits
-            </Link>
-            <Link
-              href="/contact"
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors inline-block"
-            >
-              Contactez-nous
             </Link>
           </div>
         </div>

@@ -54,7 +54,7 @@ export default function SimpleHero() {
 
   if (loading) {
     return (
-      <div className="w-full overflow-hidden py-8 px-4">
+      <div className="w-full overflow-hidden py-4 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="h-[400px] bg-gradient-to-r from-gray-200 to-gray-300 rounded-2xl shadow-2xl flex items-center justify-center animate-pulse">
             <div className="text-gray-500 text-xl font-medium">Chargement des promotions...</div>
@@ -66,7 +66,7 @@ export default function SimpleHero() {
 
   if (promotions.length === 0) {
     return (
-      <div className="w-full overflow-hidden py-8 px-4">
+      <div className="w-full overflow-hidden py-4 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="h-[400px] bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 rounded-2xl shadow-2xl flex items-center justify-center">
             <div className="text-white text-center px-8">
@@ -88,7 +88,7 @@ export default function SimpleHero() {
   const currentPromo = promotions[currentSlide];
 
   return (
-    <div className="relative w-full overflow-hidden py-8 px-4">
+    <div className="relative w-full overflow-hidden py-4 px-4">
       {/* Container with margins and rounded corners */}
       <div className="max-w-7xl mx-auto">
         {/* Single slide display with beautiful styling */}

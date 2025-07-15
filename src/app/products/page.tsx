@@ -82,21 +82,21 @@ function ProductsContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             {searchQuery ? `Résultats de recherche pour "${searchQuery}"` : 'Tous les Produits'}
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl">
             {searchQuery 
               ? `Affichage des résultats pour "${searchQuery}". Trouvez les produits parfaits qui correspondent à votre recherche.`
-              : 'Découvrez notre collection complète de produits premium. De l\'électronique à la mode, des essentiels pour la maison aux équipements de fitness - trouvez tout ce dont vous avez besoin en un seul endroit.'
+              : ''
             }
           </p>
         </div>
 
         {/* Filter and Sort Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex flex-col sm:flex-row gap-4">
               <select 

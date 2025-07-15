@@ -189,9 +189,6 @@ export default function Header() {
             <Link href="/about" className="text-gray-700 hover:text-gray-900 transition-colors">
               À Propos
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-gray-900 transition-colors">
-              Contact
-            </Link>
           </nav>
 
           {/* Search Bar - Hidden on mobile */}
@@ -323,13 +320,6 @@ export default function Header() {
                 onClick={() => setShowMobileMenu(false)}
               >
                 À Propos
-              </Link>
-              <Link 
-                href="/contact" 
-                className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-                onClick={() => setShowMobileMenu(false)}
-              >
-                Contact
               </Link>
             </div>
           </div>

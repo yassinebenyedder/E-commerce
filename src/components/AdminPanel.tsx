@@ -2225,37 +2225,37 @@ export default function AdminPanel() {
       {/* Order Details Modal */}
       {showOrderModal && viewingOrder && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-10 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
+          <div className="relative top-0 sm:top-10 mx-auto p-3 sm:p-5 border w-full sm:w-11/12 max-w-4xl shadow-lg sm:rounded-md bg-white min-h-screen sm:min-h-0">
             <div className="mt-3">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-medium text-gray-900">
-                  Order Details - #{viewingOrder.orderNumber}
+              <div className="flex justify-between items-center mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900">
+                  Détails Commande - #{viewingOrder.orderNumber}
                 </h3>
                 <button
                   onClick={closeModal}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 p-2 sm:p-0"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Order Status and Actions */}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-md font-medium text-gray-900">Order Status</h4>
-                    <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(viewingOrder.status)}`}>
+                <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4">
+                    <h4 className="text-sm sm:text-md font-medium text-gray-900 mb-2 sm:mb-0">Statut Commande</h4>
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(viewingOrder.status)} w-fit`}>
                       {viewingOrder.status.charAt(0).toUpperCase() + viewingOrder.status.slice(1)}
                     </span>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex flex-wrap gap-2">
                     {['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'].map((status) => (
                       <button
                         key={status}
                         onClick={() => handleUpdateOrderStatus(viewingOrder._id, status)}
-                        className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                        className={`px-2 sm:px-3 py-1 text-xs font-medium rounded-md transition-colors ${
                           viewingOrder.status === status
                             ? 'bg-blue-600 text-white'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -2268,22 +2268,22 @@ export default function AdminPanel() {
                 </div>
 
                 {/* Customer Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
                   <div>
-                    <h4 className="text-md font-medium text-gray-900 mb-3">Customer Information</h4>
-                    <div className="space-y-2 text-sm">
+                    <h4 className="text-sm sm:text-md font-medium text-gray-900 mb-2 sm:mb-3">Informations Client</h4>
+                    <div className="space-y-2 text-sm bg-gray-50 p-3 rounded-lg">
                       <div>
-                        <span className="font-medium text-gray-700">Name:</span> {viewingOrder.clientName}
+                        <span className="font-medium text-gray-700">Nom:</span> {viewingOrder.clientName}
                       </div>
                       <div>
                         <span className="font-medium text-gray-700">Email:</span> {viewingOrder.clientEmail}
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Phone:</span> {viewingOrder.clientPhone}
+                        <span className="font-medium text-gray-700">Téléphone:</span> {viewingOrder.clientPhone}
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Address:</span> 
-                        <div className="mt-1 pl-4 border-l-2 border-gray-200">
+                        <span className="font-medium text-gray-700">Adresse:</span> 
+                        <div className="mt-1 pl-3 border-l-2 border-gray-200">
                           {viewingOrder.clientAddress}
                         </div>
                       </div>
@@ -2291,22 +2291,22 @@ export default function AdminPanel() {
                   </div>
 
                   <div>
-                    <h4 className="text-md font-medium text-gray-900 mb-3">Order Information</h4>
-                    <div className="space-y-2 text-sm">
+                    <h4 className="text-sm sm:text-md font-medium text-gray-900 mb-2 sm:mb-3">Informations Commande</h4>
+                    <div className="space-y-2 text-sm bg-gray-50 p-3 rounded-lg">
                       <div>
-                        <span className="font-medium text-gray-700">Order Number:</span> #{viewingOrder.orderNumber}
+                        <span className="font-medium text-gray-700">Numéro:</span> #{viewingOrder.orderNumber}
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Date:</span> {new Date(viewingOrder.createdAt).toLocaleString()}
+                        <span className="font-medium text-gray-700">Date:</span> {new Date(viewingOrder.createdAt).toLocaleDateString('fr-FR')}
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Total Amount:</span> 
-                        <span className="text-lg font-bold text-green-600 ml-2">${viewingOrder.total.toFixed(2)}</span>
+                        <span className="font-medium text-gray-700">Montant Total:</span> 
+                        <span className="text-base sm:text-lg font-bold text-green-600 ml-2">{viewingOrder.total.toFixed(2)} TND</span>
                       </div>
                       {viewingOrder.notes && (
                         <div>
                           <span className="font-medium text-gray-700">Notes:</span>
-                          <div className="mt-1 pl-4 border-l-2 border-gray-200">
+                          <div className="mt-1 pl-3 border-l-2 border-gray-200 break-words">
                             {viewingOrder.notes}
                           </div>
                         </div>
@@ -2317,14 +2317,51 @@ export default function AdminPanel() {
 
                 {/* Order Items */}
                 <div>
-                  <h4 className="text-md font-medium text-gray-900 mb-3">Order Items</h4>
-                  <div className="border rounded-lg overflow-hidden">
+                  <h4 className="text-sm sm:text-md font-medium text-gray-900 mb-2 sm:mb-3">Articles Commandés</h4>
+                  
+                  {/* Mobile View */}
+                  <div className="block sm:hidden space-y-3">
+                    {viewingOrder.products.map((product, index) => (
+                      <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                        <div className="flex items-start space-x-3">
+                          <Image
+                            className="h-12 w-12 rounded-md object-cover flex-shrink-0"
+                            src={product.image}
+                            alt={product.name}
+                            width={48}
+                            height={48}
+                            unoptimized={product.image.endsWith('.svg')}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium text-gray-900 truncate">{product.name}</div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              Quantité: {product.quantity} × {product.price.toFixed(2)} TND
+                            </div>
+                            <div className="text-sm font-medium text-gray-900 mt-1">
+                              Total: {(product.price * product.quantity).toFixed(2)} TND
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="bg-green-50 p-3 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-900">Total Commande:</span>
+                        <span className="text-base font-bold text-green-600">
+                          {viewingOrder.total.toFixed(2)} TND
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Desktop Table View */}
+                  <div className="hidden sm:block border rounded-lg overflow-hidden">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Produit</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantité</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prix</th>
                           <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
                         </tr>
                       </thead>
@@ -2347,9 +2384,9 @@ export default function AdminPanel() {
                               </div>
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-900">{product.quantity}</td>
-                            <td className="px-4 py-4 text-sm text-gray-900">${product.price.toFixed(2)}</td>
+                            <td className="px-4 py-4 text-sm text-gray-900">{product.price.toFixed(2)} TND</td>
                             <td className="px-4 py-4 text-sm font-medium text-gray-900">
-                              ${(product.price * product.quantity).toFixed(2)}
+                              {(product.price * product.quantity).toFixed(2)} TND
                             </td>
                           </tr>
                         ))}
@@ -2358,7 +2395,7 @@ export default function AdminPanel() {
                             Total:
                           </td>
                           <td className="px-4 py-3 text-sm font-bold text-gray-900">
-                            ${viewingOrder.total.toFixed(2)}
+                            {viewingOrder.total.toFixed(2)} TND
                           </td>
                         </tr>
                       </tbody>
@@ -2367,18 +2404,18 @@ export default function AdminPanel() {
                 </div>
 
                 {/* Modal Actions */}
-                <div className="flex justify-end space-x-3 pt-4 border-t">
+                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t">
                   <button
                     onClick={closeModal}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    Close
+                    Fermer
                   </button>
                   <button
                     onClick={() => handleDeleteOrder(viewingOrder._id)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                    className="w-full sm:w-auto px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
                   >
-                    Delete Order
+                    Supprimer Commande
                   </button>
                 </div>
               </div>
@@ -2390,28 +2427,28 @@ export default function AdminPanel() {
       {/* Promotion Modal */}
       {showPromotionModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-10 mx-auto p-5 border w-11/12 max-w-3xl shadow-lg rounded-md bg-white">
+          <div className="relative top-0 sm:top-10 mx-auto p-3 sm:p-5 border w-full sm:w-11/12 max-w-3xl shadow-lg sm:rounded-md bg-white min-h-screen sm:min-h-0">
             <div className="mt-3">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-medium text-gray-900">
-                  {editingPromotion ? 'Edit Promotion' : 'Add New Promotion'}
+              <div className="flex justify-between items-center mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900">
+                  {editingPromotion ? 'Modifier Promotion' : 'Nouvelle Promotion'}
                 </h3>
                 <button
                   onClick={closeModal}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 p-2 sm:p-0"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
 
-              <form onSubmit={handlePromotionSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form onSubmit={handlePromotionSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
                   {/* Title */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Promotion Title *
+                      Titre de la Promotion *
                     </label>
                     <input
                       type="text"
@@ -2419,14 +2456,14 @@ export default function AdminPanel() {
                       value={promotionForm.title}
                       onChange={(e) => setPromotionForm({ ...promotionForm, title: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Enter promotion title"
+                      placeholder="Entrez le titre de la promotion"
                     />
                   </div>
 
                   {/* CTA Text */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Call to Action Text *
+                      Texte du Bouton *
                     </label>
                     <input
                       type="text"
@@ -2434,14 +2471,14 @@ export default function AdminPanel() {
                       value={promotionForm.ctaText}
                       onChange={(e) => setPromotionForm({ ...promotionForm, ctaText: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="e.g., Shop Now, Learn More"
+                      placeholder="ex: Acheter Maintenant, En Savoir Plus"
                     />
                   </div>
 
                   {/* CTA Link */}
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Call to Action Link *
+                      Lien du Bouton *
                     </label>
                     <input
                       type="url"
@@ -2454,7 +2491,7 @@ export default function AdminPanel() {
                   </div>
 
                   {/* Active Status */}
-                  <div className="md:col-span-2">
+                  <div>
                     <div className="flex items-center">
                       <input
                         type="checkbox"
@@ -2464,51 +2501,51 @@ export default function AdminPanel() {
                         className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
                       <label htmlFor="promotionActive" className="text-sm font-medium text-gray-700">
-                        Promotion is active and visible to customers
+                        Promotion active et visible aux clients
                       </label>
                     </div>
                   </div>
 
                   {/* Promotion Image */}
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Promotion Image *
+                      Image de la Promotion *
                     </label>
                     {promotionForm.image ? (
                       <div className="space-y-4">
-                        <div className="flex items-center space-x-4">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                           <Image
                             src={promotionForm.image}
-                            alt="Promotion preview"
-                            className="w-32 h-20 object-cover rounded-md border"
+                            alt="Aperçu promotion"
+                            className="w-full sm:w-32 h-20 object-cover rounded-md border"
                             width={128}
                             height={80}
                             unoptimized={promotionForm.image.endsWith('.svg')}
                           />
                           <div className="flex-1">
-                            <p className="text-sm text-gray-600 truncate">{promotionForm.image}</p>
+                            <p className="text-sm text-gray-600 break-all">{promotionForm.image}</p>
                             <button
                               type="button"
                               onClick={() => setPromotionForm({ ...promotionForm, image: '' })}
                               className="text-red-600 hover:text-red-800 text-sm mt-1"
                             >
-                              Remove image
+                              Supprimer l&apos;image
                             </button>
                           </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="border-2 border-dashed border-gray-300 rounded-md p-6">
+                      <div className="border-2 border-dashed border-gray-300 rounded-md p-4 sm:p-6">
                         <UploadButton
                           endpoint="promotionImageUploader"
                           onClientUploadComplete={(res) => {
                             if (res && res[0]) {
                               setPromotionForm({ ...promotionForm, image: res[0].url });
-                              setSuccess('Promotion image uploaded successfully!');
+                              setSuccess('Image de promotion téléchargée avec succès!');
                             }
                           }}
                           onUploadError={(error: Error) => {
-                            setError(`Upload failed: ${error.message}`);
+                            setError(`Échec du téléchargement: ${error.message}`);
                           }}
                           appearance={{
                             button: {
@@ -2526,7 +2563,7 @@ export default function AdminPanel() {
                           }}
                         />
                         <p className="text-xs text-gray-500 mt-2 text-center">
-                          Upload a promotion banner image (max 8MB)
+                          Téléchargez une image de promotion (max 8MB)
                         </p>
                       </div>
                     )}
@@ -2534,20 +2571,20 @@ export default function AdminPanel() {
                 </div>
 
                 {/* Form Actions */}
-                <div className="flex justify-end space-x-3 pt-4 border-t">
+                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t">
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    Cancel
+                    Annuler
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+                    className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
-                    {loading ? 'Saving...' : editingPromotion ? 'Update Promotion' : 'Create Promotion'}
+                    {loading ? 'Enregistrement...' : editingPromotion ? 'Mettre à jour' : 'Créer'}
                   </button>
                 </div>
               </form>
@@ -2559,28 +2596,28 @@ export default function AdminPanel() {
       {/* Admin Modal */}
       {showAdminModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-10 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md bg-white">
+          <div className="relative top-0 sm:top-10 mx-auto p-3 sm:p-5 border w-full sm:w-11/12 max-w-2xl shadow-lg sm:rounded-md bg-white min-h-screen sm:min-h-0">
             <div className="mt-3">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-medium text-gray-900">
-                  {editingAdmin ? 'Edit Admin' : 'Add New Admin'}
+              <div className="flex justify-between items-center mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900">
+                  {editingAdmin ? 'Modifier Admin' : 'Nouvel Admin'}
                 </h3>
                 <button
                   onClick={closeModal}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 p-2 sm:p-0"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
 
-              <form onSubmit={handleAdminSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form onSubmit={handleAdminSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
                   {/* Name */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
+                      Nom Complet *
                     </label>
                     <input
                       type="text"
@@ -2588,14 +2625,14 @@ export default function AdminPanel() {
                       value={adminForm.name}
                       onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Enter admin name"
+                      placeholder="Entrez le nom de l'admin"
                     />
                   </div>
 
                   {/* Email */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                      Adresse Email *
                     </label>
                     <input
                       type="email"
@@ -2608,9 +2645,9 @@ export default function AdminPanel() {
                   </div>
 
                   {/* Password */}
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Password {editingAdmin ? '(leave blank to keep current)' : '*'}
+                      Mot de Passe {editingAdmin ? '(laisser vide pour conserver)' : '*'}
                     </label>
                     <input
                       type="password"
@@ -2618,13 +2655,13 @@ export default function AdminPanel() {
                       value={adminForm.password || ''}
                       onChange={(e) => setAdminForm({ ...adminForm, password: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder={editingAdmin ? "Leave blank to keep current password" : "Enter password (min 6 characters)"}
+                      placeholder={editingAdmin ? "Laisser vide pour conserver le mot de passe" : "Entrez le mot de passe (min 6 caractères)"}
                       minLength={6}
                     />
                   </div>
 
                   {/* Active Status */}
-                  <div className="md:col-span-2">
+                  <div>
                     <div className="flex items-center">
                       <input
                         type="checkbox"
@@ -2634,27 +2671,27 @@ export default function AdminPanel() {
                         className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
                       <label htmlFor="adminActive" className="text-sm font-medium text-gray-700">
-                        Admin is active and can access the system
+                        Admin actif et peut accéder au système
                       </label>
                     </div>
                   </div>
                 </div>
 
                 {/* Form Actions */}
-                <div className="flex justify-end space-x-3 pt-4 border-t">
+                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t">
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    Cancel
+                    Annuler
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+                    className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
-                    {loading ? 'Saving...' : editingAdmin ? 'Update Admin' : 'Create Admin'}
+                    {loading ? 'Enregistrement...' : editingAdmin ? 'Mettre à jour' : 'Créer'}
                   </button>
                 </div>
               </form>

@@ -7,12 +7,6 @@ const promotionSchema = new mongoose.Schema({
     trim: true,
     maxlength: [100, 'Title cannot exceed 100 characters']
   },
-  subtitle: {
-    type: String,
-    required: [true, 'Promotion subtitle is required'],
-    trim: true,
-    maxlength: [200, 'Subtitle cannot exceed 200 characters']
-  },
   image: {
     type: String,
     required: [true, 'Promotion image is required']
@@ -36,13 +30,6 @@ const promotionSchema = new mongoose.Schema({
     type: Number,
     default: 1,
     min: 1
-  },
-  startDate: {
-    type: Date,
-    default: Date.now
-  },
-  endDate: {
-    type: Date
   }
 }, {
   timestamps: true
