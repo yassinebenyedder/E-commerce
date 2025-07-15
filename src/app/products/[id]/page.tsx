@@ -1,5 +1,8 @@
 import { notFound } from 'next/navigation';
 import ProductDetails from '@/components/ProductDetails';
+import connectDB from '@/lib/connectDB';
+import Product from '@/models/Product';
+import { isValidObjectId } from 'mongoose';
 
 interface ProductVariant {
   _id?: string;
@@ -12,7 +15,7 @@ interface ProductVariant {
   isDefault: boolean;
 }
 
-interface Product {
+interface IProduct {
   _id: string;
   name: string;
   basePrice?: number;
@@ -20,33 +23,61 @@ interface Product {
   rating: number;
   reviewCount: number;
   category: string;
+  description?: string;
   isOnSale?: boolean;
   variants?: ProductVariant[];
-  description?: string;
   inStock?: boolean;
   baseSku?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-async function getProduct(id: string): Promise<Product | null> {
+async function getProduct(id: string): Promise<IProduct | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/products/${id}`, {
-      cache: 'no-store', // Disable caching for dynamic content
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const data = await response.json();
+    console.log('Direct DB: Starting product fetch...');
+    console.log('Direct DB: Product ID:', id);
     
-    if (!data.success) {
+    // Validate MongoDB ObjectId
+    if (!isValidObjectId(id)) {
+      console.log('Direct DB: Invalid ObjectId:', id);
       return null;
     }
 
-    return data.product;
+    // Connect to database
+    await connectDB();
+    console.log('Direct DB: Database connected');
+    
+    // Find product by ID using direct database access
+    const product = await Product.findById(id).lean();
+    console.log('Direct DB: Product found:', !!product);
+    
+    if (product) {
+      console.log('Direct DB: Product details:', {
+        id: (product as any)._id, // eslint-disable-line @typescript-eslint/no-explicit-any
+        name: (product as any).name, // eslint-disable-line @typescript-eslint/no-explicit-any
+        hasVariants: !!(product as any).variants, // eslint-disable-line @typescript-eslint/no-explicit-any
+        variantCount: (product as any).variants?.length || 0, // eslint-disable-line @typescript-eslint/no-explicit-any
+        rating: (product as any).rating, // eslint-disable-line @typescript-eslint/no-explicit-any
+        reviewCount: (product as any).reviewCount // eslint-disable-line @typescript-eslint/no-explicit-any
+      });
+      
+      // Convert MongoDB document to plain object and ensure _id is a string
+      return {
+        ...(product as any), // eslint-disable-line @typescript-eslint/no-explicit-any
+        _id: (product as any)._id.toString(), // eslint-disable-line @typescript-eslint/no-explicit-any
+        rating: (product as any).rating || 0, // eslint-disable-line @typescript-eslint/no-explicit-any
+        reviewCount: (product as any).reviewCount || 0, // eslint-disable-line @typescript-eslint/no-explicit-any
+        variants: (product as any).variants?.map((variant: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
+          ...variant,
+          _id: variant._id?.toString()
+        })) || []
+      } as IProduct;
+    }
+
+    console.log('Direct DB: Product not found in database');
+    return null;
   } catch (error) {
-    console.error('Error fetching product:', error);
+    console.error('Direct DB: Error fetching product:', error);
     return null;
   }
 }
