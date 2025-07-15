@@ -46,6 +46,15 @@ export default function Header() {
     fetchCategories();
   }, []);
 
+  // Handle categories dropdown hover
+  const handleCategoriesMouseEnter = () => {
+    setShowDesktopCategories(true);
+  };
+
+  const handleCategoriesMouseLeave = () => {
+    setShowDesktopCategories(false);
+  };
+
   const toggleMobileCategoriesExpanded = () => {
     setShowMobileCategoriesExpanded(!showMobileCategoriesExpanded);
     if (!showMobileCategoriesExpanded) {
@@ -101,7 +110,9 @@ export default function Header() {
       document.addEventListener('click', handleClickOutside);
     }
 
-    return () => document.removeEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, [showMobileMenu, showDesktopCategories]);
 
   return (
@@ -111,7 +122,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
-              ShopHub
+              Ben Yedder
             </Link>
           </div>
 
@@ -127,18 +138,18 @@ export default function Header() {
             {/* Categories Dropdown */}
             <div 
               className="relative categories-dropdown"
-              onMouseEnter={() => setShowDesktopCategories(true)}
-              onMouseLeave={() => setShowDesktopCategories(false)}
+              onMouseEnter={handleCategoriesMouseEnter}
+              onMouseLeave={handleCategoriesMouseLeave}
             >
               <button
-                className="flex items-center text-gray-700 hover:text-gray-900 transition-colors"
+                className="flex items-center text-gray-700 hover:text-gray-900 transition-colors py-2"
               >
                 Catégories
                 <ChevronRight className={`ml-1 h-4 w-4 transition-transform ${showDesktopCategories ? 'rotate-90' : ''}`} />
               </button>
               
               {showDesktopCategories && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <div className="absolute top-full left-0 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                   <div className="py-2">
                     <Link
                       href="/products"
@@ -234,15 +245,7 @@ export default function Header() {
 
       {/* Mobile Navigation Menu */}
       {showMobileMenu && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-25 z-40 md:hidden"
-            onClick={() => setShowMobileMenu(false)}
-          />
-          
-          {/* Menu */}
-          <div className="relative z-50 md:hidden bg-white border-t border-gray-200 shadow-lg mobile-menu">
+        <div className="relative z-50 md:hidden bg-white border-t border-gray-200 shadow-lg mobile-menu">
             <div className="px-4 py-2 space-y-1 max-h-96 overflow-y-auto">
               <Link 
                 href="/" 
@@ -330,7 +333,6 @@ export default function Header() {
               </Link>
             </div>
           </div>
-        </>
       )}
 
       {/* Mobile Search Modal */}
@@ -344,7 +346,7 @@ export default function Header() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Rechercher des Produits</h2>
+              <h2 className="text-lg font-semibold text-black">Rechercher des Produits</h2>
               <button 
                 onClick={() => setShowMobileSearch(false)}
                 className="p-2 text-gray-500 hover:text-gray-700"

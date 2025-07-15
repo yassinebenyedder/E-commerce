@@ -76,6 +76,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         items: [],
         total: 0,
         itemCount: 0,
+        isLoading: false,
         error: null,
       };
     

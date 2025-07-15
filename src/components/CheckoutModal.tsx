@@ -16,8 +16,6 @@ interface CustomerInfo {
   email: string;
   phone: string;
   address: string;
-  city: string;
-  postalCode: string;
 }
 
 export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutModalProps) {
@@ -29,8 +27,6 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
     email: '',
     phone: '',
     address: '',
-    city: '',
-    postalCode: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -78,7 +74,8 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create order');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create order');
       }
 
       const result = await response.json();
@@ -86,8 +83,8 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
       if (result.success) {
         // Clear cart and close modal
         await clearCart();
+        alert('Commande passée avec succès! ID: ' + (result.orderId || result.orderNumber || 'N/A'));
         onClose();
-        alert('Commande passée avec succès! ID de commande: ' + result.orderId);
       } else {
         throw new Error(result.error || 'Échec de la création de la commande');
       }
@@ -153,8 +150,8 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
                     </span>
                   </div>
                   <div className="flex justify-between font-semibold">
-                    <span>Total</span>
-                    <span>
+                    <span className='text-black'>Total</span>
+                    <span className='text-black'>
                       {(cartItems.reduce((sum, item) => sum + item.itemTotal, 0) + 
                         (cartItems.reduce((sum, item) => sum + item.quantity, 0) >= 2 ? 0 : 5)).toFixed(2)} TND
                     </span>
@@ -251,35 +248,6 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                   />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      City *
-                    </label>
-                    <input
-                      type="text"
-                      name="city"
-                      value={customerInfo.city}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Postal Code *
-                    </label>
-                    <input
-                      type="text"
-                      name="postalCode"
-                      value={customerInfo.postalCode}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                    />
-                  </div>
                 </div>
               </div>
 

@@ -29,26 +29,18 @@ interface Product {
 
 async function getProduct(id: string): Promise<Product | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
-    const url = `${baseUrl}/api/products/${id}`;
-    console.log('Fetching product from:', url);
-    
-    const response = await fetch(url, {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/products/${id}`, {
       cache: 'no-store', // Disable caching for dynamic content
     });
 
-    console.log('Response status:', response.status);
-
     if (!response.ok) {
-      console.log('Response not OK, status:', response.status);
       return null;
     }
 
     const data = await response.json();
-    console.log('API Response:', data);
     
     if (!data.success) {
-      console.log('API returned success: false', data);
       return null;
     }
 

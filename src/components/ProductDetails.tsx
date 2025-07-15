@@ -239,15 +239,15 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     disabled={quantity <= 1}
                     className="p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Minus className="w-4 h-4" />
+                    <Minus className="w-4 h-4 text-black" />
                   </button>
-                  <span className="px-4 py-2 text-center min-w-[60px]">{quantity}</span>
+                  <span className="px-4 py-2 text-center min-w-[60px] text-black">{quantity}</span>
                   <button
                     onClick={() => handleQuantityChange(1)}
                     disabled={quantity >= currentStock}
                     className="p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-4 h-4 text-black" />
                   </button>
                 </div>
               </div>

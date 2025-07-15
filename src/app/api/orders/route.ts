@@ -20,8 +20,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate customer info
-    const { firstName, lastName, email, phone, address, city, postalCode, country } = customerInfo;
-    if (!firstName || !lastName || !email || !phone || !address || !city || !postalCode || !country) {
+    const { firstName, lastName, email, phone, address } = customerInfo;
+    if (!firstName || !lastName || !email || !phone || !address) {
       return NextResponse.json(
         { success: false, error: 'Missing required customer information' },
         { status: 400 }
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
       clientName: `${firstName} ${lastName}`,
       clientEmail: email,
       clientPhone: phone,
-      clientAddress: `${address}, ${city}, ${postalCode}, ${country}`,
+      clientAddress: address,
       products: orderProducts,
       total,
       status: 'pending'
