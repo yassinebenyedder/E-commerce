@@ -2273,17 +2273,17 @@ export default function AdminPanel() {
                     <h4 className="text-sm sm:text-md font-medium text-gray-900 mb-2 sm:mb-3">Informations Client</h4>
                     <div className="space-y-2 text-sm bg-gray-50 p-3 rounded-lg">
                       <div>
-                        <span className="font-medium text-gray-700">Nom:</span> {viewingOrder.clientName}
+                        <span className="font-medium text-black">Nom:</span> <span className="text-black">{viewingOrder.clientName}</span>
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Email:</span> {viewingOrder.clientEmail}
+                        <span className="font-medium text-black">Email:</span> <span className="text-black">{viewingOrder.clientEmail}</span>
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Téléphone:</span> {viewingOrder.clientPhone}
+                        <span className="font-medium text-black">Téléphone:</span> <span className="text-black">{viewingOrder.clientPhone}</span>
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Adresse:</span> 
-                        <div className="mt-1 pl-3 border-l-2 border-gray-200">
+                        <span className="font-medium text-black">Adresse:</span> 
+                        <div className="mt-1 pl-3 border-l-2 border-gray-200 text-black">
                           {viewingOrder.clientAddress}
                         </div>
                       </div>
@@ -2294,19 +2294,19 @@ export default function AdminPanel() {
                     <h4 className="text-sm sm:text-md font-medium text-gray-900 mb-2 sm:mb-3">Informations Commande</h4>
                     <div className="space-y-2 text-sm bg-gray-50 p-3 rounded-lg">
                       <div>
-                        <span className="font-medium text-gray-700">Numéro:</span> #{viewingOrder.orderNumber}
+                        <span className="font-medium text-black">Numéro:</span> <span className="text-black">#{viewingOrder.orderNumber}</span>
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Date:</span> {new Date(viewingOrder.createdAt).toLocaleDateString('fr-FR')}
+                        <span className="font-medium text-black">Date:</span> <span className="text-black">{new Date(viewingOrder.createdAt).toLocaleDateString('fr-FR')}</span>
                       </div>
                       <div>
-                        <span className="font-medium text-gray-700">Montant Total:</span> 
+                        <span className="font-medium text-black">Montant Total:</span> 
                         <span className="text-base sm:text-lg font-bold text-green-600 ml-2">{viewingOrder.total.toFixed(2)} TND</span>
                       </div>
                       {viewingOrder.notes && (
                         <div>
-                          <span className="font-medium text-gray-700">Notes:</span>
-                          <div className="mt-1 pl-3 border-l-2 border-gray-200 break-words">
+                          <span className="font-medium text-black">Notes:</span>
+                          <div className="mt-1 pl-3 border-l-2 border-gray-200 break-words text-black">
                             {viewingOrder.notes}
                           </div>
                         </div>
@@ -2333,11 +2333,11 @@ export default function AdminPanel() {
                             unoptimized={product.image.endsWith('.svg')}
                           />
                           <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-gray-900 truncate">{product.name}</div>
-                            <div className="text-xs text-gray-500 mt-1">
+                            <div className="text-sm font-medium text-black truncate">{product.name}</div>
+                            <div className="text-xs text-gray-600 mt-1">
                               Quantité: {product.quantity} × {product.price.toFixed(2)} TND
                             </div>
-                            <div className="text-sm font-medium text-gray-900 mt-1">
+                            <div className="text-sm font-medium text-black mt-1">
                               Total: {(product.price * product.quantity).toFixed(2)} TND
                             </div>
                           </div>
@@ -2346,7 +2346,7 @@ export default function AdminPanel() {
                     ))}
                     <div className="bg-green-50 p-3 rounded-lg">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-gray-900">Total Commande:</span>
+                        <span className="text-sm font-medium text-black">Total Commande:</span>
                         <span className="text-base font-bold text-green-600">
                           {viewingOrder.total.toFixed(2)} TND
                         </span>
@@ -2379,22 +2379,22 @@ export default function AdminPanel() {
                                   unoptimized={product.image.endsWith('.svg')}
                                 />
                                 <div className="ml-3">
-                                  <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                                  <div className="text-sm font-medium text-black">{product.name}</div>
                                 </div>
                               </div>
                             </td>
-                            <td className="px-4 py-4 text-sm text-gray-900">{product.quantity}</td>
-                            <td className="px-4 py-4 text-sm text-gray-900">{product.price.toFixed(2)} TND</td>
-                            <td className="px-4 py-4 text-sm font-medium text-gray-900">
+                            <td className="px-4 py-4 text-sm text-black">{product.quantity}</td>
+                            <td className="px-4 py-4 text-sm text-black">{product.price.toFixed(2)} TND</td>
+                            <td className="px-4 py-4 text-sm font-medium text-black">
                               {(product.price * product.quantity).toFixed(2)} TND
                             </td>
                           </tr>
                         ))}
                         <tr className="bg-gray-50">
-                          <td colSpan={3} className="px-4 py-3 text-right text-sm font-medium text-gray-900">
+                          <td colSpan={3} className="px-4 py-3 text-right text-sm font-medium text-black">
                             Total:
                           </td>
-                          <td className="px-4 py-3 text-sm font-bold text-gray-900">
+                          <td className="px-4 py-3 text-sm font-bold text-black">
                             {viewingOrder.total.toFixed(2)} TND
                           </td>
                         </tr>
