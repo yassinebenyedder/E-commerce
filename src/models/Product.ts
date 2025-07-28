@@ -11,7 +11,7 @@ interface IVariant {
   isDefault: boolean;
 }
 
-// Schema for product variants (e.g., different sizes, colors, etc.)
+// Schema for product variants
 const variantSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -54,7 +54,7 @@ const productSchema = new mongoose.Schema({
     trim: true,
     maxlength: [100, 'Product name cannot exceed 100 characters']
   },
-  // Remove single price field as variants will have individual prices
+  // variants will have individual prices
   basePrice: {
     type: Number,
     min: [0, 'Base price cannot be negative'],
@@ -140,7 +140,7 @@ productSchema.methods.getVariant = function(variantId: string) {
   return this.variants && this.variants.id(variantId);
 };
 
-// Pre-save middleware to ensure at least one default variant
+// middleware to ensure at least one default variant
 productSchema.pre('save', function(next) {
   if (this.variants && this.variants.length > 0) {
     const hasDefault = this.variants.some((variant: IVariant) => variant.isDefault);
@@ -151,7 +151,7 @@ productSchema.pre('save', function(next) {
   next();
 });
 
-// Create indexes for better query performance
+// Create indexes
 productSchema.index({ category: 1 });
 productSchema.index({ 'variants.price': 1 });
 productSchema.index({ rating: -1 });

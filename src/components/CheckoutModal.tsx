@@ -89,7 +89,6 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
         throw new Error(result.error || 'Échec de la création de la commande');
       }
     } catch (error) {
-      console.error('Error placing order:', error);
       alert('Échec de la commande. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);

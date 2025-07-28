@@ -7,7 +7,6 @@ interface Admin {
   id: string;
   name: string;
   email: string;
-  lastLogin: string;
 }
 
 export default function AdminPage() {
@@ -31,7 +30,7 @@ export default function AdminPage() {
         setIsAuthenticated(true);
       }
     } catch (error) {
-      console.error('Auth verification failed:', error);
+      // Silent error handling - page will show login form
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +61,6 @@ export default function AdminPage() {
       }
     } catch (error) {
       setError('Network error. Please try again.');
-      console.error('Login error:', error);
     } finally {
       setIsLoggingIn(false);
     }
@@ -74,7 +72,7 @@ export default function AdminPage() {
       setIsAuthenticated(false);
       setAdmin(null);
     } catch (error) {
-      console.error('Logout error:', error);
+      // Silent error handling - logout locally regardless
     }
   };
 
@@ -170,7 +168,6 @@ export default function AdminPage() {
 
   return (
     <div>
-      {/* Admin Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
@@ -188,7 +185,6 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Admin Panel */}
       <AdminPanel />
     </div>
   );

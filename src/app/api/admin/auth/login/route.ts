@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find admin by email
     const admin = await Admin.findOne({ email, isActive: true });
     if (!admin) {
       return NextResponse.json(
@@ -28,7 +27,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check password
     const isPasswordValid = await admin.comparePassword(password);
     if (!isPasswordValid) {
       return NextResponse.json(
@@ -37,11 +35,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update last login
     admin.lastLogin = new Date();
     await admin.save();
 
-    // Generate JWT token
     const token = jwt.sign(
       { 
         adminId: admin._id, 
@@ -52,7 +48,6 @@ export async function POST(request: NextRequest) {
       { expiresIn: '24h' }
     );
 
-    // Create response with token in httpOnly cookie
     const response = NextResponse.json({
       success: true,
       message: 'Login successful',
@@ -68,13 +63,12 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      maxAge: 24 * 60 * 60 * 1000
     });
 
     return response;
 
   } catch (error) {
-    console.error('Admin login error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

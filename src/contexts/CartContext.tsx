@@ -37,9 +37,6 @@ type CartAction =
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'SET_CART'; payload: { items: CartItem[]; total: number; itemCount: number } }
-  | { type: 'ADD_ITEM'; payload: CartItem }
-  | { type: 'UPDATE_ITEM'; payload: { productId: string; variantId?: string; quantity: number } }
-  | { type: 'REMOVE_ITEM'; payload: { productId: string; variantId?: string } }
   | { type: 'CLEAR_CART' };
 
 // Initial state

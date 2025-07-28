@@ -10,7 +10,6 @@ interface ProductVariant {
   name: string;
   price: number;
   originalPrice?: number;
-  sku?: string;
   inStock: boolean;
   stockQuantity: number;
   isDefault: boolean;
@@ -21,14 +20,11 @@ interface Product {
   name: string;
   basePrice?: number;
   image: string;
-  rating: number;
-  reviewCount: number;
   category: string;
   isOnSale?: boolean;
   variants?: ProductVariant[];
   description?: string;
   inStock?: boolean;
-  baseSku?: string;
 }
 
 interface ProductDetailsProps {
@@ -44,7 +40,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
-  // Get current price and original price
   const currentPrice = selectedVariant?.price || product.basePrice || 0;
   const currentOriginalPrice = selectedVariant?.originalPrice;
   const currentStock = selectedVariant?.stockQuantity || 0;
@@ -54,10 +49,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
     : 0;
 
-  // For demo purposes, create multiple images (in real app, these would come from the product data)
   const productImages = [
     product.image,
-    product.image, // In real app, you'd have different angles/views
+    product.image,
     product.image,
   ];
 
@@ -69,39 +63,16 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   };
 
   const handleAddToCart = async () => {
-    if (!product._id) return;
-    
-    // Validate quantity
-    if (quantity <= 0) {
-      alert('Veuillez sélectionner une quantité valide (minimum 1)');
-      return;
-    }
-    
-    // Check stock availability
-    if (!isInStock) {
-      alert('Ce produit est en rupture de stock');
-      return;
-    }
-    
-    // Check if requested quantity is available
-    if (currentStock <= 0) {
-      alert('Ce produit est en rupture de stock');
-      return;
-    }
-    
-    if (quantity > currentStock) {
-      alert(`Seulement ${currentStock} articles disponibles en stock`);
+    if (!product._id || !isInStock || currentStock <= 0 || quantity <= 0 || quantity > currentStock) {
       return;
     }
     
     try {
       setIsAddingToCart(true);
       await addToCart(product._id, selectedVariant?._id, quantity);
-      // Reset quantity to 1 after successful add
       setQuantity(1);
     } catch (error) {
-      console.error('Error adding to cart:', error);
-      alert('Échec de l\'ajout de l\'article au panier');
+      // Silent error handling - cart context manages errors
     } finally {
       setIsAddingToCart(false);
     }

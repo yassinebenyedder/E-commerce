@@ -39,7 +39,7 @@ export default function Header() {
           setCategories(activeCategories.slice(0, 3));
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // Silently handle error - header will show no categories
       }
     };
 
@@ -65,15 +65,6 @@ export default function Header() {
   };
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
-      setShowMobileSearch(false);
-    }
-  };
-
-  const handleMobileSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
@@ -344,7 +335,7 @@ export default function Header() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <form onSubmit={handleMobileSearch} className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
                 type="text"

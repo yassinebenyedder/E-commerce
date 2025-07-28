@@ -493,8 +493,6 @@ export default function AdminPanel() {
     setSuccess('');
 
     try {
-      console.log('Updating order status:', { orderId, status: newStatus }); // Debug log
-      
       const response = await fetch('/api/admin/orders', {
         method: 'PUT',
         headers: {
@@ -504,17 +502,14 @@ export default function AdminPanel() {
       });
 
       const data = await response.json();
-      console.log('API Response:', data); // Debug log
       
       if (data.success) {
         setSuccess('Order status updated successfully!');
         fetchOrders();
       } else {
         setError(data.error || 'Failed to update order status');
-        console.error('API Error:', data.error); // Debug log
       }
     } catch (error) {
-      console.error('Request Error:', error); // Debug log
       setError('Error updating order status');
     } finally {
       setLoading(false);

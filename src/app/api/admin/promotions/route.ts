@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/connectDB';
 import Promotion from '@/models/Promotion';
+import { verifyAdminToken } from '@/lib/auth';
 
-// GET all promotions for admin
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     const promotions = await Promotion.find({}).sort({ createdAt: -1 });
@@ -13,7 +21,6 @@ export async function GET() {
       promotions
     });
   } catch (error) {
-    console.error('Error fetching promotions:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch promotions' },
       { status: 500 }
@@ -21,15 +28,20 @@ export async function GET() {
   }
 }
 
-// POST - Create new promotion
 export async function POST(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
   try {
     await connectDB();
     
     const body = await request.json();
     const { title, image, ctaText, ctaLink, isActive = true } = body;
 
-    // Validation
     if (!title || !ctaText || !ctaLink) {
       return NextResponse.json(
         { success: false, error: 'Missing required fields: title, ctaText, ctaLink' },
@@ -37,7 +49,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create new promotion
     const promotion = new Promotion({
       title,
       image: image || '/promotions/placeholder.svg',
@@ -55,7 +66,6 @@ export async function POST(request: NextRequest) {
     }, { status: 201 });
 
   } catch (error) {
-    console.error('Error creating promotion:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create promotion' },
       { status: 500 }
@@ -63,8 +73,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT - Update promotion
 export async function PUT(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     
@@ -113,7 +130,6 @@ export async function PUT(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error updating promotion:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to update promotion' },
       { status: 500 }
@@ -121,8 +137,15 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE - Delete promotion
 export async function DELETE(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     
@@ -151,7 +174,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting promotion:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete promotion' },
       { status: 500 }

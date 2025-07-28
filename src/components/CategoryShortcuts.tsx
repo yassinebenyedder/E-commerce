@@ -31,7 +31,7 @@ export default function CategoryShortcuts() {
           setCategories(activeCategories);
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // Silently handle error - component will show no categories
       } finally {
         setIsLoading(false);
       }

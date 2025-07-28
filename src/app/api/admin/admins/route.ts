@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
-// Middleware to verify admin authentication
 async function verifyAdmin(request: NextRequest) {
   const token = request.cookies.get('admin-token')?.value;
   
@@ -25,7 +24,6 @@ async function verifyAdmin(request: NextRequest) {
   return admin;
 }
 
-// GET - Fetch all admins
 export async function GET(request: NextRequest) {
   try {
     await verifyAdmin(request);
@@ -39,7 +37,6 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Fetch admins error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to fetch admins' },
       { status: error instanceof Error && error.message.includes('token') ? 401 : 500 }
@@ -47,7 +44,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Create new admin
 export async function POST(request: NextRequest) {
   try {
     await verifyAdmin(request);
@@ -56,7 +52,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, password } = body;
 
-    // Validation
     if (!name || !email || !password) {
       return NextResponse.json(
         { error: 'Name, email, and password are required' },
@@ -71,7 +66,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if admin already exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return NextResponse.json(
@@ -80,7 +74,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create new admin
     const admin = new Admin({
       name: name.trim(),
       email: email.toLowerCase().trim(),
@@ -97,7 +90,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Create admin error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to create admin' },
       { status: error instanceof Error && error.message.includes('token') ? 401 : 500 }
@@ -105,7 +97,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT - Update admin
 export async function PUT(request: NextRequest) {
   try {
     await verifyAdmin(request);
@@ -129,10 +120,8 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Update fields
     if (name) admin.name = name.trim();
     if (email) {
-      // Check if email is already taken by another admin
       const existingAdmin = await Admin.findOne({ email, _id: { $ne: id } });
       if (existingAdmin) {
         return NextResponse.json(
@@ -162,7 +151,6 @@ export async function PUT(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Update admin error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to update admin' },
       { status: error instanceof Error && error.message.includes('token') ? 401 : 500 }
@@ -170,7 +158,6 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE - Delete admin
 export async function DELETE(request: NextRequest) {
   try {
     const currentAdmin = await verifyAdmin(request);
@@ -186,7 +173,6 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Prevent self-deletion
     if (currentAdmin._id.toString() === id) {
       return NextResponse.json(
         { error: 'You cannot delete your own account' },
@@ -210,7 +196,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Delete admin error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to delete admin' },
       { status: error instanceof Error && error.message.includes('token') ? 401 : 500 }

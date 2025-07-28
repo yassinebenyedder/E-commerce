@@ -25,10 +25,10 @@ const features = [
 ];
 
 const stats = [
-  { label: 'Clients Satisfaits', value: '50 000+' },
-  { label: 'Produits Vendus', value: '200 000+' },
-  { label: 'Pays Desservis', value: '25+' },
-  { label: 'Années d\'Expérience', value: '8+' },
+  { label: 'Produits Disponibles', value: '1000+' },
+  { label: 'Catégories', value: '20+' },
+  { label: 'Livraison', value: '2-5 jours' },
+  { label: 'Support Client', value: '24/7' },
 ];
 
 export default function AboutPage() {
@@ -42,8 +42,8 @@ export default function AboutPage() {
               À Propos de ShopHub
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-              Votre partenaire de confiance pour le shopping en ligne, vous offrant des produits de qualité 
-              et un service exceptionnel depuis 2016.
+              Votre destination de confiance pour le shopping en ligne, vous offrant des produits de qualité 
+              et un service exceptionnel.
             </p>
           </div>
         </section>
@@ -58,18 +58,19 @@ export default function AboutPage() {
                 </h2>
                 <div className="space-y-4 text-gray-600 leading-relaxed">
                   <p>
-                    Fondé en 2016, ShopHub a commencé comme une petite place de marché en ligne avec une mission simple : 
-                    rendre les produits de qualité accessibles à tous. Ce qui a commencé comme un projet passionné par 
-                    une équipe d&apos;enthousiastes du e-commerce est devenu une plateforme de confiance servant des clients dans le monde entier.
+                    ShopHub est une plateforme e-commerce moderne conçue pour offrir une expérience de shopping 
+                    simple et agréable. Nous nous concentrons sur la sélection de produits de qualité et 
+                    un service client exceptionnel.
                   </p>
                   <p>
-                    Nous croyons que le shopping devrait être pratique, fiable et agréable. C&apos;est pourquoi nous avons 
-                    construit une plateforme qui combine une technologie de pointe avec un service client personnalisé, 
-                    garantissant que chaque interaction avec ShopHub dépasse vos attentes.
+                    Notre équipe travaille sans relâche pour vous apporter les meilleurs produits aux meilleurs prix, 
+                    avec une livraison rapide et un support client réactif. Chaque produit est soigneusement 
+                    sélectionné pour répondre à vos attentes.
                   </p>
                   <p>
-                    Aujourd&apos;hui, nous sommes fiers d&apos;être la destination de choix pour des milliers de clients qui nous font confiance 
-                    pour leurs besoins de shopping, des essentiels quotidiens aux trouvailles pour occasions spéciales.
+                    Nous croyons que le shopping en ligne devrait être facile, sécurisé et satisfaisant. 
+                    C'est pourquoi nous investissons continuellement dans l'amélioration de notre plateforme 
+                    et de nos services.
                   </p>
                 </div>
               </div>
@@ -77,14 +78,13 @@ export default function AboutPage() {
               <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Notre Mission</h3>
                 <p className="text-gray-600 mb-6">
-                  Révolutionner le shopping en ligne en offrant une expérience client exceptionnelle, 
-                  proposant des produits de haute qualité à des prix compétitifs, et en construisant des relations durables 
-                  avec nos clients et partenaires.
+                  Offrir une expérience de shopping en ligne exceptionnelle en proposant des produits 
+                  de haute qualité, un service client réactif et une livraison fiable.
                 </p>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Notre Vision</h3>
                 <p className="text-gray-600">
-                  Devenir la plateforme e-commerce la plus fiable et centrée sur le client au monde, 
-                  où chacun peut découvrir, acheter et profiter de produits qui améliorent sa vie.
+                  Devenir la plateforme e-commerce de référence en Tunisie, reconnue pour sa fiabilité, 
+                  sa qualité de service et la satisfaction de ses clients.
                 </p>
               </div>
             </div>
@@ -96,10 +96,10 @@ export default function AboutPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Notre Impact en Chiffres
+                Nos Services
               </h2>
               <p className="text-gray-600">
-                Ces chiffres représentent la confiance que nos clients nous accordent chaque jour.
+                Des chiffres qui témoignent de notre engagement envers la qualité et le service.
               </p>
             </div>
             
@@ -156,8 +156,8 @@ export default function AboutPage() {
               Prêt à Commencer vos Achats ?
             </h2>
             <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-              Rejoignez des milliers de clients satisfaits qui ont fait de ShopHub leur destination shopping préférée. 
-              Découvrez des produits extraordinaires et des offres imbattables aujourd&apos;hui !
+              Découvrez notre sélection de produits de qualité et profitez d'une expérience shopping 
+              simple et sécurisée. Commandez dès aujourd'hui !
             </p>
             <div className="flex justify-center">
               <Link

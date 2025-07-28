@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/connectDB';
 import Order from '@/models/Order';
+import { verifyAdminToken } from '@/lib/auth';
 
-// GET all orders for admin
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     
@@ -16,7 +24,6 @@ export async function GET() {
       orders
     });
   } catch (error) {
-    console.error('Error fetching orders:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch orders' },
       { status: 500 }
@@ -24,18 +31,22 @@ export async function GET() {
   }
 }
 
-// PUT - Update order status
 export async function PUT(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
   try {
     await connectDB();
     
     const body = await request.json();
-    console.log('PUT request body:', body); // Debug log
     
     const { orderId, status } = body;
 
     if (!orderId || !status) {
-      console.log('Missing required fields:', { orderId, status }); // Debug log
       return NextResponse.json(
         { success: false, error: 'Order ID and status are required' },
         { status: 400 }
@@ -44,7 +55,6 @@ export async function PUT(request: NextRequest) {
 
     const validStatuses = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
     if (!validStatuses.includes(status)) {
-      console.log('Invalid status:', status, 'Valid statuses:', validStatuses); // Debug log
       return NextResponse.json(
         { success: false, error: 'Invalid status' },
         { status: 400 }
@@ -71,7 +81,6 @@ export async function PUT(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error updating order:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to update order' },
       { status: 500 }
@@ -79,7 +88,6 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE - Delete order
 export async function DELETE(request: NextRequest) {
   try {
     await connectDB();
@@ -109,7 +117,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting order:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete order' },
       { status: 500 }

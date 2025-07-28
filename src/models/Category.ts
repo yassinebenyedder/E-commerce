@@ -30,7 +30,6 @@ const categorySchema = new mongoose.Schema({
 });
 
 // Create indexes
-// title index is already created by unique: true
 categorySchema.index({ isActive: 1, order: 1 });
 
 export default mongoose.models.Category || mongoose.model('Category', categorySchema);

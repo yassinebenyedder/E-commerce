@@ -20,13 +20,11 @@ function ProductsContent() {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   
-  // Get current filter values from URL
   const searchQuery = searchParams.get('search');
   const selectedCategory = searchParams.get('category') || '';
   const selectedPriceRange = searchParams.get('priceRange') || '';
   const selectedSortBy = searchParams.get('sortBy') || '';
 
-  // Fetch categories on component mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -36,14 +34,13 @@ function ProductsContent() {
           setCategories(data.categories);
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // Silently handle error
       }
     };
     
     fetchCategories();
   }, []);
 
-  // Update URL params when filters change
   const updateFilters = (newFilters: { [key: string]: string }) => {
     const params = new URLSearchParams(searchParams);
     
@@ -95,7 +92,6 @@ function ProductsContent() {
           </p>
         </div>
 
-        {/* Filter and Sort Section */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex flex-col sm:flex-row gap-4">
@@ -150,7 +146,6 @@ function ProductsContent() {
           </div>
         </div>
 
-        {/* Active Filters Display */}
         {hasActiveFilters && (
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -177,7 +172,6 @@ function ProductsContent() {
           </div>
         )}
 
-        {/* Products Grid */}
         <ProductGrid 
           title={searchQuery ? `Résultats de recherche pour "${searchQuery}"` : 'Tous les Produits'}
           search={searchQuery || undefined}

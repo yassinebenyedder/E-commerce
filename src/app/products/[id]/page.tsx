@@ -34,34 +34,15 @@ interface IProduct {
 
 async function getProduct(id: string): Promise<IProduct | null> {
   try {
-    console.log('Direct DB: Starting product fetch...');
-    console.log('Direct DB: Product ID:', id);
-    
-    // Validate MongoDB ObjectId
     if (!isValidObjectId(id)) {
-      console.log('Direct DB: Invalid ObjectId:', id);
       return null;
     }
 
-    // Connect to database
     await connectDB();
-    console.log('Direct DB: Database connected');
     
-    // Find product by ID using direct database access
     const product = await Product.findById(id).lean();
-    console.log('Direct DB: Product found:', !!product);
     
     if (product) {
-      console.log('Direct DB: Product details:', {
-        id: (product as any)._id, // eslint-disable-line @typescript-eslint/no-explicit-any
-        name: (product as any).name, // eslint-disable-line @typescript-eslint/no-explicit-any
-        hasVariants: !!(product as any).variants, // eslint-disable-line @typescript-eslint/no-explicit-any
-        variantCount: (product as any).variants?.length || 0, // eslint-disable-line @typescript-eslint/no-explicit-any
-        rating: (product as any).rating, // eslint-disable-line @typescript-eslint/no-explicit-any
-        reviewCount: (product as any).reviewCount // eslint-disable-line @typescript-eslint/no-explicit-any
-      });
-      
-      // Convert MongoDB document to plain object and ensure _id is a string
       return {
         ...(product as any), // eslint-disable-line @typescript-eslint/no-explicit-any
         _id: (product as any)._id.toString(), // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -74,10 +55,8 @@ async function getProduct(id: string): Promise<IProduct | null> {
       } as IProduct;
     }
 
-    console.log('Direct DB: Product not found in database');
     return null;
   } catch (error) {
-    console.error('Direct DB: Error fetching product:', error);
     return null;
   }
 }

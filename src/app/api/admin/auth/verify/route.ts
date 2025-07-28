@@ -39,7 +39,6 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Admin verify error:', error);
     return NextResponse.json(
       { error: 'Invalid token' },
       { status: 401 }

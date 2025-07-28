@@ -42,13 +42,12 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   
-  // Calculate display price - show base price or price range for variants
+  // Calculate display price and price range for variants
   const hasVariants = product.variants && product.variants.length > 0;
   const defaultVariant = hasVariants ? product.variants?.find(v => v.isDefault) || product.variants?.[0] : null;
   const displayPrice = defaultVariant?.price || product.basePrice || product.price || 0;
   const originalPrice = defaultVariant?.originalPrice || product.originalPrice;
   
-  // Calculate price range for multiple variants
   const priceRange = product.variants && product.variants.length > 1 
     ? {
         min: Math.min(...product.variants.map(v => v.price)),
@@ -63,7 +62,6 @@ export default function ProductCard({ product }: ProductCardProps) {
   const productId = product._id || product.id;
   const isInStock = hasVariants ? (defaultVariant?.inStock ?? true) : (product.inStock !== false);
   const stockQuantity = hasVariants ? (defaultVariant?.stockQuantity ?? 0) : 0;
-  // For products with variants, check variant stock. For products without variants, assume stock is available if inStock is true
   const hasStock = hasVariants ? (isInStock && stockQuantity > 0) : isInStock;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
@@ -76,7 +74,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       setIsAddingToCart(true);
       await addToCart(productId.toString(), defaultVariant?._id, 1);
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      // Silent error handling
     } finally {
       setIsAddingToCart(false);
     }
@@ -84,7 +82,6 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
-      {/* Product Image - Clickable */}
       <Link href={`/products/${productId}`} className="block relative">
         <div className="relative aspect-square overflow-hidden">
           <Image
@@ -102,13 +99,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
 
-      {/* Wishlist Button */}
       <button 
         className="absolute top-1 right-1 sm:top-2 sm:right-2 p-1 sm:p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gray-50 z-20"
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
-          // TODO: Add to wishlist functionality
         }}
       >
         <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,18 +111,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         </svg>
       </button>
 
-      {/* Product Info */}
-      <div className="p-2 sm:p-4">{/* Category */}
+      <div className="p-2 sm:p-4">
         <p className="text-xs sm:text-sm text-gray-500 mb-1">{product.category}</p>
         
-        {/* Product Name - Clickable */}
         <Link href={`/products/${productId}`}>
           <h3 className="font-semibold text-gray-900 mb-2 sm:mb-4 line-clamp-2 h-8 sm:h-12 text-sm sm:text-base hover:text-blue-600 transition-colors cursor-pointer">
             {product.name}
           </h3>
         </Link>
 
-        {/* Price */}
         <div className="space-y-1 sm:space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1 sm:space-x-2">
@@ -147,7 +139,6 @@ export default function ProductCard({ product }: ProductCardProps) {
               )}
             </div>
             
-            {/* Add to Cart Button */}
             <button 
               className="bg-blue-600 hover:bg-blue-700 text-white p-1.5 sm:p-2 rounded-lg transition-colors duration-200 group/btn disabled:bg-gray-400 disabled:cursor-not-allowed"
               disabled={!hasStock || isAddingToCart}
@@ -157,7 +148,6 @@ export default function ProductCard({ product }: ProductCardProps) {
             </button>
           </div>
 
-          {/* Stock Status */}
           {!hasStock && (
             <p className="text-xs sm:text-sm text-red-600">Rupture de stock</p>
           )}

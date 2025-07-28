@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/connectDB';
 import Category from '@/models/Category';
 
-// GET - Fetch all categories
 export async function GET() {
   try {
     await connectDB();
@@ -13,7 +12,6 @@ export async function GET() {
       categories
     });
   } catch (error) {
-    console.error('Error fetching categories:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch categories' },
       { status: 500 }
@@ -21,7 +19,6 @@ export async function GET() {
   }
 }
 
-// POST - Create new category
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
@@ -29,7 +26,6 @@ export async function POST(request: NextRequest) {
     
     const { title, image, description, order } = body;
     
-    // Validation
     if (!title || !image) {
       return NextResponse.json(
         { success: false, error: 'Title and image are required' },
@@ -37,7 +33,6 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Check if category with same title already exists
     const existingCategory = await Category.findOne({ title: title.trim() });
     if (existingCategory) {
       return NextResponse.json(
@@ -62,7 +57,6 @@ export async function POST(request: NextRequest) {
     }, { status: 201 });
     
   } catch (error) {
-    console.error('Error creating category:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create category' },
       { status: 500 }

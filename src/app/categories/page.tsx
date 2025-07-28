@@ -29,7 +29,7 @@ export default function CategoriesPage() {
         setCategories(data.categories);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      // Silently handle error
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,6 @@ export default function CategoriesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <div className="bg-white py-8">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Acheter par Catégorie</h1>
@@ -57,7 +56,6 @@ export default function CategoriesPage() {
         </div>
       </div>
 
-      {/* Categories Grid */}
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
@@ -104,7 +102,6 @@ export default function CategoriesPage() {
         )}
       </div>
 
-      {/* CTA Section */}
       <div className="bg-blue-600 py-8">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">

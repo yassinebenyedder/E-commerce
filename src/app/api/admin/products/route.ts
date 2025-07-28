@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/connectDB';
 import Product from '@/models/Product';
+import { verifyAdminToken } from '@/lib/auth';
 
-// GET all products for admin
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     const products = await Product.find({}).sort({ createdAt: -1 });
@@ -13,7 +21,6 @@ export async function GET() {
       products
     });
   } catch (error) {
-    console.error('Error fetching products:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch products' },
       { status: 500 }
@@ -21,15 +28,20 @@ export async function GET() {
   }
 }
 
-// POST - Create new product
 export async function POST(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
   try {
     await connectDB();
     
     const body = await request.json();
     const { name, description, category, image, images, variants, baseSku } = body;
 
-    // Validation
     if (!name || !description || !category) {
       return NextResponse.json(
         { success: false, error: 'Missing required fields: name, description, category' },
@@ -44,7 +56,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate each variant
     for (const variant of variants) {
       if (!variant.name || variant.price === undefined || variant.price < 0) {
         return NextResponse.json(
@@ -54,13 +65,11 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Ensure at least one variant is marked as default
     const hasDefault = variants.some(variant => variant.isDefault);
     if (!hasDefault && variants.length > 0) {
       variants[0].isDefault = true;
     }
 
-    // Create new product
     const product = new Product({
       name,
       description,
@@ -80,7 +89,6 @@ export async function POST(request: NextRequest) {
     }, { status: 201 });
 
   } catch (error) {
-    console.error('Error creating product:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create product' },
       { status: 500 }
@@ -88,8 +96,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT - Update product
 export async function PUT(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     
@@ -129,7 +144,6 @@ export async function PUT(request: NextRequest) {
     if (baseSku) updateData.baseSku = baseSku;
     
     if (variants && Array.isArray(variants) && variants.length > 0) {
-      // Validate variants
       for (const variant of variants) {
         if (!variant.name || variant.price === undefined || variant.price < 0) {
           return NextResponse.json(
@@ -139,7 +153,6 @@ export async function PUT(request: NextRequest) {
         }
       }
       
-      // Ensure at least one variant is marked as default
       const hasDefault = variants.some(variant => variant.isDefault);
       if (!hasDefault && variants.length > 0) {
         variants[0].isDefault = true;
@@ -168,7 +181,6 @@ export async function PUT(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error updating product:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to update product' },
       { status: 500 }
@@ -176,8 +188,15 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE - Delete product
 export async function DELETE(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     
@@ -206,7 +225,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting product:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete product' },
       { status: 500 }

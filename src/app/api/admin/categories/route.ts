@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/connectDB';
 import Category from '@/models/Category';
+import { verifyAdminToken } from '@/lib/auth';
 
-// GET - Fetch all categories (including inactive ones for admin)
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     const categories = await Category.find({}).sort({ order: 1, createdAt: -1 });
@@ -13,7 +21,6 @@ export async function GET() {
       categories
     });
   } catch (error) {
-    console.error('Error fetching categories:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch categories' },
       { status: 500 }
@@ -21,15 +28,20 @@ export async function GET() {
   }
 }
 
-// POST - Create new category
 export async function POST(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
   try {
     await connectDB();
     const body = await request.json();
     
     const { title, image, description, order } = body;
     
-    // Validation
     if (!title || !image) {
       return NextResponse.json(
         { success: false, error: 'Title and image are required' },
@@ -37,7 +49,6 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Check if category with same title already exists
     const existingCategory = await Category.findOne({ title: title.trim() });
     if (existingCategory) {
       return NextResponse.json(
@@ -62,7 +73,6 @@ export async function POST(request: NextRequest) {
     }, { status: 201 });
     
   } catch (error) {
-    console.error('Error creating category:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create category' },
       { status: 500 }
@@ -70,8 +80,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PUT - Update category
 export async function PUT(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     const body = await request.json();
@@ -85,7 +102,6 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    // Check if category exists
     const category = await Category.findById(id);
     if (!category) {
       return NextResponse.json(
@@ -94,7 +110,6 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    // Check if title is being changed and if new title already exists
     if (title && title.trim() !== category.title) {
       const existingCategory = await Category.findOne({ 
         title: title.trim(),
@@ -108,7 +123,6 @@ export async function PUT(request: NextRequest) {
       }
     }
     
-    // Update category
     const updateData: {
       title?: string;
       image?: string;
@@ -135,7 +149,6 @@ export async function PUT(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Error updating category:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to update category' },
       { status: 500 }
@@ -143,8 +156,15 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE - Delete category
 export async function DELETE(request: NextRequest) {
+  const authResult = await verifyAdminToken(request);
+  if (authResult.error) {
+    return NextResponse.json(
+      { success: false, error: authResult.error },
+      { status: authResult.status }
+    );
+  }
+
   try {
     await connectDB();
     const { searchParams } = new URL(request.url);
@@ -157,7 +177,6 @@ export async function DELETE(request: NextRequest) {
       );
     }
     
-    // Check if category exists
     const category = await Category.findById(id);
     if (!category) {
       return NextResponse.json(
@@ -166,7 +185,6 @@ export async function DELETE(request: NextRequest) {
       );
     }
     
-    // Check if any products are using this category
     const { default: Product } = await import('@/models/Product');
     const productsUsingCategory = await Product.countDocuments({ category: category.title });
     
@@ -188,7 +206,6 @@ export async function DELETE(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Error deleting category:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete category' },
       { status: 500 }

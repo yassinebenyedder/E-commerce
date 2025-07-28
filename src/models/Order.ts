@@ -75,6 +75,4 @@ const orderSchema = new mongoose.Schema({
 orderSchema.index({ clientEmail: 1 });
 orderSchema.index({ status: 1 });
 orderSchema.index({ createdAt: -1 });
-// orderNumber index is already created by unique: true
-
 export default mongoose.models.Order || mongoose.model('Order', orderSchema);

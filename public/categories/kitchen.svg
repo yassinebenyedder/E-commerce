@@ -1,8 +1,0 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100" height="100" fill="#10B981"/>
-  <path d="M30 25h40v30H30V25zm5 5v20h30V30H35z" fill="white"/>
-  <circle cx="40" cy="40" r="3" fill="#10B981"/>
-  <circle cx="60" cy="40" r="3" fill="#10B981"/>
-  <rect x="45" y="55" width="10" height="8" fill="white"/>
-  <text x="50" y="80" font-family="Arial" font-size="8" fill="white" text-anchor="middle">Kitchen</text>
-</svg>

@@ -75,7 +75,6 @@ export default function CartPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8">
           <Link
             href="/products"
@@ -89,12 +88,10 @@ export default function CartPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
               <div key={`${item.productId}-${item.variantId || 'default'}`} className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-start space-x-4">
-                  {/* Product Image */}
                   <div className="flex-shrink-0">
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
                       <Image
@@ -108,7 +105,6 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  {/* Product Details */}
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/products/${item.productId}`}
@@ -122,7 +118,6 @@ export default function CartPage() {
                     )}
                     <div className="flex items-center justify-between mt-4">
                       <div className="flex items-center space-x-3">
-                        {/* Quantity Controls */}
                         <div className="flex items-center border border-gray-300 rounded-lg">
                           <button
                             onClick={() => handleQuantityChange(item.productId, item.variantId, item.quantity - 1)}
@@ -140,7 +135,6 @@ export default function CartPage() {
                           </button>
                         </div>
 
-                        {/* Remove Button */}
                         <button
                           onClick={() => handleRemoveItem(item.productId, item.variantId)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
@@ -149,7 +143,6 @@ export default function CartPage() {
                         </button>
                       </div>
 
-                      {/* Price */}
                       <div className="text-right">
                         <p className="text-lg font-semibold text-gray-900">{item.itemTotal.toFixed(2)} TND</p>
                         <p className="text-sm text-gray-500">{item.price.toFixed(2)} TND chacun</p>
@@ -161,7 +154,6 @@ export default function CartPage() {
             ))}
           </div>
 
-          {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Résumé de Commande</h2>
@@ -177,7 +169,7 @@ export default function CartPage() {
                 </div>
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-lg font-semibold text-gray-900">
-                    <span className='text-black'>Total</span>
+                    <span className="text-black">Total</span>
                     <span>{(total + (itemCount >= 2 ? 0 : 5)).toFixed(2)} TND</span>
                   </div>
                 </div>
@@ -204,7 +196,6 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* Checkout Modal */}
       {showCheckout && (
         <CheckoutModal
           isOpen={showCheckout}

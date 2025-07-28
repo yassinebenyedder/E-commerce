@@ -20,7 +20,6 @@ export default function SimpleHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Fetch promotions from API
   useEffect(() => {
     const fetchPromotions = async () => {
       try {
@@ -32,7 +31,7 @@ export default function SimpleHero() {
           setPromotions(sortedPromotions);
         }
       } catch (error) {
-        console.error('Error fetching promotions:', error);
+        // Silent error handling - component will show fallback hero
       } finally {
         setLoading(false);
       }
@@ -41,7 +40,6 @@ export default function SimpleHero() {
     fetchPromotions();
   }, []);
 
-  // Auto-advance slides every 5 seconds
   useEffect(() => {
     if (promotions.length <= 1) return;
     
@@ -89,9 +87,7 @@ export default function SimpleHero() {
 
   return (
     <div className="relative w-full overflow-hidden py-4 px-4">
-      {/* Container with margins and rounded corners */}
       <div className="max-w-7xl mx-auto">
-        {/* Single slide display with beautiful styling */}
         <div
           className="w-full h-[400px] rounded-2xl shadow-2xl overflow-hidden relative"
           style={{
@@ -101,7 +97,6 @@ export default function SimpleHero() {
             backgroundRepeat: 'no-repeat',
           }}
         >
-          {/* Content overlay */}
           <div className="flex items-center justify-start h-full px-12 md:px-16">
             <div className="text-white max-w-2xl">
               <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
@@ -116,12 +111,10 @@ export default function SimpleHero() {
             </div>
           </div>
 
-          {/* Decorative gradient overlay for better visual appeal */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
 
-      {/* Navigation arrows */}
       {promotions.length > 1 && (
         <>
           <button
