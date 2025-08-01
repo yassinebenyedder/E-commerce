@@ -509,7 +509,7 @@ export default function AdminPanel() {
       } else {
         setError(data.error || 'Échec de la mise à jour du statut de la commande');
       }
-    } catch (error) {
+    } catch {
       setError('Erreur lors de la mise à jour du statut de la commande');
     } finally {
       setLoading(false);
@@ -1817,7 +1817,7 @@ export default function AdminPanel() {
                               onClick={() => setProductForm({ ...productForm, image: '' })}
                               className="text-red-600 hover:text-red-800 text-sm mt-1"
                             >
-                              Supprimer l'image
+                              Supprimer l&apos;image
                             </button>
                           </div>
                         </div>
@@ -1920,7 +1920,7 @@ export default function AdminPanel() {
                           }}
                         />
                         <p className="text-xs text-gray-500 mt-1 text-center">
-                          Ajoutez plus d'images de produit
+                          Ajoutez plus d&apos;images de produit
                         </p>
                       </div>
                     </div>
@@ -2137,7 +2137,7 @@ export default function AdminPanel() {
                               onClick={() => setCategoryForm({ ...categoryForm, image: '' })}
                               className="text-red-600 hover:text-red-800 text-sm mt-1"
                             >
-                              Supprimer l'image
+                              Supprimer l&apos;image
                             </button>
                           </div>
                         </div>

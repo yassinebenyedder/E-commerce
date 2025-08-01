@@ -38,7 +38,7 @@ export default function Header() {
           // Show first 3 categories by default in mobile menu
           setCategories(activeCategories.slice(0, 3));
         }
-      } catch (error) {
+      } catch {
         // Silently handle error - header will show no categories
       }
     };

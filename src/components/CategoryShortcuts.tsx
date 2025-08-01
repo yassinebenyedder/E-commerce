@@ -30,7 +30,7 @@ export default function CategoryShortcuts() {
             .slice(0, 3);
           setCategories(activeCategories);
         }
-      } catch (error) {
+      } catch {
         // Silently handle error - component will show no categories
       } finally {
         setIsLoading(false);

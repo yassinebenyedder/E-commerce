@@ -88,7 +88,7 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
       } else {
         throw new Error(result.error || 'Échec de la création de la commande');
       }
-    } catch (error) {
+    } catch {
       alert('Échec de la commande. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);

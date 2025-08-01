@@ -46,7 +46,7 @@ export default function ProductGrid({
         } else {
           setError(data.error || 'Échec du chargement des produits');
         }
-      } catch (err) {
+      } catch {
         setError('Échec du chargement des produits');
       } finally {
         setLoading(false);

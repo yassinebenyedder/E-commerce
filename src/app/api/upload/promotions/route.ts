@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       size: size,
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to upload image' },
       { status: 500 }

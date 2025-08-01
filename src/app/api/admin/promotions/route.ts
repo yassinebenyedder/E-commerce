@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       success: true,
       promotions
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch promotions' },
       { status: 500 }
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
       message: 'Promotion created successfully'
     }, { status: 201 });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to create promotion' },
       { status: 500 }
@@ -129,7 +129,7 @@ export async function PUT(request: NextRequest) {
       message: 'Promotion updated successfully'
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to update promotion' },
       { status: 500 }
@@ -173,7 +173,7 @@ export async function DELETE(request: NextRequest) {
       message: 'Promotion deleted successfully'
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to delete promotion' },
       { status: 500 }

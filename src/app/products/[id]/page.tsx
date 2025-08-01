@@ -56,7 +56,7 @@ async function getProduct(id: string): Promise<IProduct | null> {
     }
 
     return null;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

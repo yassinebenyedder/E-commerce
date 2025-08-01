@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
       products: products
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { 
         success: false, 

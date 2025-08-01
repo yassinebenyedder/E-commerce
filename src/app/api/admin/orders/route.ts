@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
       success: true,
       orders
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch orders' },
       { status: 500 }
@@ -80,7 +80,7 @@ export async function PUT(request: NextRequest) {
       message: 'Order status updated successfully'
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to update order' },
       { status: 500 }
@@ -116,7 +116,7 @@ export async function DELETE(request: NextRequest) {
       message: 'Order deleted successfully'
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to delete order' },
       { status: 500 }

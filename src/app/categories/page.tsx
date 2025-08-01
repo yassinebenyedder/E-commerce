@@ -28,7 +28,7 @@ export default function CategoriesPage() {
       if (data.success) {
         setCategories(data.categories);
       }
-    } catch (error) {
+    } catch {
       // Silently handle error
     } finally {
       setLoading(false);

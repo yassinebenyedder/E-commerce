@@ -33,7 +33,7 @@ function ProductsContent() {
         if (data.success) {
           setCategories(data.categories);
         }
-      } catch (error) {
+      } catch {
         // Silently handle error
       }
     };

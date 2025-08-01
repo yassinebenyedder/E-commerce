@@ -24,7 +24,7 @@ export async function verifyAdminToken(request: NextRequest) {
 
     return { admin, status: 200 };
 
-  } catch (error) {
+  } catch {
     return { error: 'Invalid token', status: 401 };
   }
 }

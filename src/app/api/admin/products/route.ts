@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       success: true,
       products
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch products' },
       { status: 500 }
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       message: 'Product created successfully'
     }, { status: 201 });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to create product' },
       { status: 500 }
@@ -180,7 +180,7 @@ export async function PUT(request: NextRequest) {
       message: 'Product updated successfully'
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to update product' },
       { status: 500 }
@@ -224,7 +224,7 @@ export async function DELETE(request: NextRequest) {
       message: 'Product deleted successfully'
     });
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to delete product' },
       { status: 500 }

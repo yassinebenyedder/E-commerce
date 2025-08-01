@@ -9,7 +9,7 @@ const features = [
   },
   {
     icon: Users,
-    title: 'Client d\'Abord',
+    title: 'Client d&apos;Abord',
     description: 'Votre satisfaction est notre priorité. Nous offrons un service client exceptionnel et un support à chaque étape.',
   },
   {
@@ -69,7 +69,7 @@ export default function AboutPage() {
                   </p>
                   <p>
                     Nous croyons que le shopping en ligne devrait être facile, sécurisé et satisfaisant. 
-                    C'est pourquoi nous investissons continuellement dans l'amélioration de notre plateforme 
+                    C&apos;est pourquoi nous investissons continuellement dans l&apos;amélioration de notre plateforme 
                     et de nos services.
                   </p>
                 </div>
@@ -156,8 +156,8 @@ export default function AboutPage() {
               Prêt à Commencer vos Achats ?
             </h2>
             <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-              Découvrez notre sélection de produits de qualité et profitez d'une expérience shopping 
-              simple et sécurisée. Commandez dès aujourd'hui !
+              Découvrez notre sélection de produits de qualité et profitez d&apos;une expérience shopping 
+              simple et sécurisée. Commandez dès aujourd&apos;hui !
             </p>
             <div className="flex justify-center">
               <Link

@@ -30,7 +30,7 @@ export default function SimpleHero() {
           const sortedPromotions = data.promotions.sort((a: Promotion, b: Promotion) => a.order - b.order);
           setPromotions(sortedPromotions);
         }
-      } catch (error) {
+      } catch {
         // Silent error handling - component will show fallback hero
       } finally {
         setLoading(false);

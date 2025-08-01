@@ -71,7 +71,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       setIsAddingToCart(true);
       await addToCart(product._id, selectedVariant?._id, quantity);
       setQuantity(1);
-    } catch (error) {
+    } catch {
       // Silent error handling - cart context manages errors
     } finally {
       setIsAddingToCart(false);

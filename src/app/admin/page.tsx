@@ -29,7 +29,7 @@ export default function AdminPage() {
         setAdmin(data.admin);
         setIsAuthenticated(true);
       }
-    } catch (error) {
+    } catch {
       // Silent error handling - page will show login form
     } finally {
       setIsLoading(false);
@@ -59,7 +59,7 @@ export default function AdminPage() {
       } else {
         setError(data.error || 'Login failed');
       }
-    } catch (error) {
+    } catch {
       setError('Network error. Please try again.');
     } finally {
       setIsLoggingIn(false);
@@ -71,7 +71,7 @@ export default function AdminPage() {
       await fetch('/api/admin/auth/logout', { method: 'POST' });
       setIsAuthenticated(false);
       setAdmin(null);
-    } catch (error) {
+    } catch {
       // Silent error handling - logout locally regardless
     }
   };

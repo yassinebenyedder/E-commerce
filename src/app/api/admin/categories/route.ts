@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       success: true,
       categories
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch categories' },
       { status: 500 }
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       category
     }, { status: 201 });
     
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to create category' },
       { status: 500 }
@@ -148,7 +148,7 @@ export async function PUT(request: NextRequest) {
       category: updatedCategory
     });
     
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to update category' },
       { status: 500 }
@@ -205,7 +205,7 @@ export async function DELETE(request: NextRequest) {
       message: 'Category deleted successfully'
     });
     
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to delete category' },
       { status: 500 }

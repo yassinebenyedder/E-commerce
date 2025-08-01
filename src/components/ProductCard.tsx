@@ -73,7 +73,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     try {
       setIsAddingToCart(true);
       await addToCart(productId.toString(), defaultVariant?._id, 1);
-    } catch (error) {
+    } catch {
       // Silent error handling
     } finally {
       setIsAddingToCart(false);
