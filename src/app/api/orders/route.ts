@@ -3,6 +3,18 @@ import connectDB from '@/lib/connectDB';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
 
+// Interface for product variant
+interface IVariant {
+  _id?: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  sku?: string;
+  inStock: boolean;
+  stockQuantity: number;
+  isDefault: boolean;
+}
+
 // POST - Create new order
 export async function POST(request: NextRequest) {
   try {
@@ -114,7 +126,7 @@ export async function POST(request: NextRequest) {
         }
       } else if (product.variants && product.variants.length > 0) {
         // Update default variant stock if no specific variant
-        const defaultVariant = product.variants.find((v: any) => v.isDefault) || product.variants[0];
+        const defaultVariant = product.variants.find((v: IVariant) => v.isDefault) || product.variants[0];
         if (defaultVariant) {
           defaultVariant.stockQuantity = Math.max(0, defaultVariant.stockQuantity - quantity);
           defaultVariant.inStock = defaultVariant.stockQuantity > 0;
@@ -123,7 +135,7 @@ export async function POST(request: NextRequest) {
 
       // Update product-level inStock status based on all variants
       if (product.variants && product.variants.length > 0) {
-        product.inStock = product.variants.some((v: any) => v.inStock);
+        product.inStock = product.variants.some((v: IVariant) => v.inStock);
       }
 
       await product.save();
