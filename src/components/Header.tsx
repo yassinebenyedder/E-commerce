@@ -112,8 +112,16 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
-              Ben Yedder
+            <Link 
+              href="/" 
+              className="group flex flex-col justify-center py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-200"
+            >
+              <span className="text-2xl font-black text-gray-900 group-hover:text-red-600 transition-colors duration-200 tracking-tight">
+                Ben Yedder
+              </span>
+              <span className="text-xs font-semibold text-red-600 uppercase tracking-[0.2em] -mt-1 group-hover:text-red-700 transition-colors duration-200">
+                Parfums
+              </span>
             </Link>
           </div>
 

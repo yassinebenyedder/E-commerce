@@ -225,7 +225,7 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
                     value={customerInfo.phone}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-black"
                   />
                 </div>
 

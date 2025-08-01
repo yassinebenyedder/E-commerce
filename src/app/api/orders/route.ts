@@ -98,6 +98,37 @@ export async function POST(request: NextRequest) {
 
     const savedOrder = await order.save();
 
+    // After order is successfully created, update inventory quantities
+    for (const item of items) {
+      const { productId, variantId, quantity } = item;
+      
+      const product = await Product.findById(productId);
+      if (!product) continue;
+
+      if (variantId && product.variants) {
+        // Update variant stock quantity
+        const variant = product.variants.id(variantId);
+        if (variant) {
+          variant.stockQuantity = Math.max(0, variant.stockQuantity - quantity);
+          variant.inStock = variant.stockQuantity > 0;
+        }
+      } else if (product.variants && product.variants.length > 0) {
+        // Update default variant stock if no specific variant
+        const defaultVariant = product.variants.find((v: any) => v.isDefault) || product.variants[0];
+        if (defaultVariant) {
+          defaultVariant.stockQuantity = Math.max(0, defaultVariant.stockQuantity - quantity);
+          defaultVariant.inStock = defaultVariant.stockQuantity > 0;
+        }
+      }
+
+      // Update product-level inStock status based on all variants
+      if (product.variants && product.variants.length > 0) {
+        product.inStock = product.variants.some((v: any) => v.inStock);
+      }
+
+      await product.save();
+    }
+
     return NextResponse.json({
       success: true,
       orderId: orderNumber,

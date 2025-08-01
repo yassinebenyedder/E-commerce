@@ -20,6 +20,7 @@ interface Product {
   name: string;
   basePrice?: number;
   image: string;
+  images?: string[];
   category: string;
   isOnSale?: boolean;
   variants?: ProductVariant[];
@@ -49,11 +50,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
     : 0;
 
+  // Combine main image with additional images, removing duplicates
   const productImages = [
     product.image,
-    product.image,
-    product.image,
-  ];
+    ...(product.images || [])
+  ].filter((image, index, array) => array.indexOf(image) === index); // Remove duplicates
 
   const handleQuantityChange = (change: number) => {
     const newQuantity = quantity + change;
@@ -156,7 +157,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <div className="flex items-center space-x-2">
               <div className={`w-2 h-2 rounded-full ${(isInStock && currentStock > 0) ? 'bg-green-400' : 'bg-red-400'}`} />
               <span className={`text-sm font-medium ${(isInStock && currentStock > 0) ? 'text-green-600' : 'text-red-600'}`}>
-                {(isInStock && currentStock > 0) ? `En Stock (${currentStock} disponible)` : 'Rupture de Stock'}
+                {(isInStock && currentStock > 0) ? 'En Stock' : 'Rupture de Stock'}
               </span>
             </div>
           </div>
