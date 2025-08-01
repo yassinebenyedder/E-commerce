@@ -176,10 +176,10 @@ export default function AdminPanel() {
       if (data.success) {
         setProducts(data.products);
       } else {
-        setError('Failed to fetch products');
+        setError('Échec du chargement des produits');
       }
     } catch {
-      setError('Error fetching products');
+      setError('Erreur lors du chargement des produits');
     } finally {
       setLoading(false);
     }
@@ -193,7 +193,7 @@ export default function AdminPanel() {
         setCategories(data.categories);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error('Erreur lors du chargement des catégories:', error);
     }
   };
 
@@ -205,10 +205,10 @@ export default function AdminPanel() {
       if (data.success) {
         setOrders(data.orders);
       } else {
-        setError('Failed to fetch orders');
+        setError('Échec du chargement des commandes');
       }
     } catch {
-      setError('Error fetching orders');
+      setError('Erreur lors du chargement des commandes');
     } finally {
       setLoading(false);
     }
@@ -222,10 +222,10 @@ export default function AdminPanel() {
       if (data.success) {
         setPromotions(data.promotions);
       } else {
-        setError('Failed to fetch promotions');
+        setError('Échec du chargement des promotions');
       }
     } catch {
-      setError('Error fetching promotions');
+      setError('Erreur lors du chargement des promotions');
     } finally {
       setLoading(false);
     }
@@ -239,10 +239,10 @@ export default function AdminPanel() {
       if (data.success) {
         setAdmins(data.admins);
       } else {
-        setError('Failed to fetch admins');
+        setError('Échec du chargement des administrateurs');
       }
     } catch {
-      setError('Error fetching admins');
+      setError('Erreur lors du chargement des administrateurs');
     } finally {
       setLoading(false);
     }
@@ -256,7 +256,7 @@ export default function AdminPanel() {
 
     // Validate that main image is uploaded
     if (!productForm.image) {
-      setError('Please upload a main product image');
+      setError('Veuillez télécharger une image principale du produit');
       setLoading(false);
       return;
     }
@@ -276,23 +276,23 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess(editingProduct ? 'Product updated successfully!' : 'Product created successfully!');
+        setSuccess(editingProduct ? 'Produit mis à jour avec succès !' : 'Produit créé avec succès !');
         setShowProductModal(false);
         setEditingProduct(null);
         resetProductForm();
         fetchProducts();
       } else {
-        setError(data.error || 'Failed to save product');
+        setError(data.error || 'Échec de la sauvegarde du produit');
       }
     } catch {
-      setError('Error saving product');
+      setError('Erreur lors de la sauvegarde du produit');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return;
 
     setLoading(true);
     try {
@@ -303,13 +303,13 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess('Product deleted successfully!');
+        setSuccess('Produit supprimé avec succès !');
         fetchProducts();
       } else {
-        setError(data.error || 'Failed to delete product');
+        setError(data.error || 'Échec de la suppression du produit');
       }
     } catch {
-      setError('Error deleting product');
+      setError('Erreur lors de la suppression du produit');
     } finally {
       setLoading(false);
     }
@@ -401,7 +401,7 @@ export default function AdminPanel() {
 
     // Validate that category image is uploaded
     if (!categoryForm.image) {
-      setError('Please upload a category image');
+      setError('Veuillez télécharger une image de catégorie');
       setLoading(false);
       return;
     }
@@ -425,23 +425,23 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess(editingCategory ? 'Category updated successfully!' : 'Category created successfully!');
+        setSuccess(editingCategory ? 'Catégorie mise à jour avec succès !' : 'Catégorie créée avec succès !');
         setShowCategoryModal(false);
         setEditingCategory(null);
         resetCategoryForm();
         fetchCategories();
       } else {
-        setError(data.error || 'Failed to save category');
+        setError(data.error || 'Échec de la sauvegarde de la catégorie');
       }
     } catch {
-      setError('Error saving category');
+      setError('Erreur lors de la sauvegarde de la catégorie');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteCategory = async (categoryId: string) => {
-    if (!confirm('Are you sure you want to delete this category? This action cannot be undone.')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ? Cette action ne peut pas être annulée.')) return;
 
     setLoading(true);
     try {
@@ -452,13 +452,13 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess('Category deleted successfully!');
+        setSuccess('Catégorie supprimée avec succès !');
         fetchCategories();
       } else {
-        setError(data.error || 'Failed to delete category');
+        setError(data.error || 'Échec de la suppression de la catégorie');
       }
     } catch {
-      setError('Error deleting category');
+      setError('Erreur lors de la suppression de la catégorie');
     } finally {
       setLoading(false);
     }
@@ -504,20 +504,20 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess('Order status updated successfully!');
+        setSuccess('Statut de la commande mis à jour avec succès !');
         fetchOrders();
       } else {
-        setError(data.error || 'Failed to update order status');
+        setError(data.error || 'Échec de la mise à jour du statut de la commande');
       }
     } catch (error) {
-      setError('Error updating order status');
+      setError('Erreur lors de la mise à jour du statut de la commande');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteOrder = async (orderId: string) => {
-    if (!confirm('Are you sure you want to delete this order? This action cannot be undone.')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cette commande ? Cette action ne peut pas être annulée.')) return;
 
     setLoading(true);
     try {
@@ -528,13 +528,13 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess('Order deleted successfully!');
+        setSuccess('Commande supprimée avec succès !');
         fetchOrders();
       } else {
-        setError(data.error || 'Failed to delete order');
+        setError(data.error || 'Échec de la suppression de la commande');
       }
     } catch {
-      setError('Error deleting order');
+      setError('Erreur lors de la suppression de la commande');
     } finally {
       setLoading(false);
     }
@@ -571,7 +571,7 @@ export default function AdminPanel() {
 
     // Validate that promotion image is uploaded
     if (!promotionForm.image) {
-      setError('Please upload a promotion image');
+      setError('Veuillez télécharger une image de promotion');
       setLoading(false);
       return;
     }
@@ -595,23 +595,23 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess(editingPromotion ? 'Promotion updated successfully!' : 'Promotion created successfully!');
+        setSuccess(editingPromotion ? 'Promotion mise à jour avec succès !' : 'Promotion créée avec succès !');
         setShowPromotionModal(false);
         setEditingPromotion(null);
         resetPromotionForm();
         fetchPromotions();
       } else {
-        setError(data.error || 'Failed to save promotion');
+        setError(data.error || 'Échec de la sauvegarde de la promotion');
       }
     } catch {
-      setError('Error saving promotion');
+      setError('Erreur lors de la sauvegarde de la promotion');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeletePromotion = async (promotionId: string) => {
-    if (!confirm('Are you sure you want to delete this promotion? This action cannot be undone.')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cette promotion ? Cette action ne peut pas être annulée.')) return;
 
     setLoading(true);
     try {
@@ -622,13 +622,13 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess('Promotion deleted successfully!');
+        setSuccess('Promotion supprimée avec succès !');
         fetchPromotions();
       } else {
-        setError(data.error || 'Failed to delete promotion');
+        setError(data.error || 'Échec de la suppression de la promotion');
       }
     } catch {
-      setError('Error deleting promotion');
+      setError('Erreur lors de la suppression de la promotion');
     } finally {
       setLoading(false);
     }
@@ -691,23 +691,23 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess(editingAdmin ? 'Admin updated successfully!' : 'Admin created successfully!');
+        setSuccess(editingAdmin ? 'Administrateur mis à jour avec succès !' : 'Administrateur créé avec succès !');
         setShowAdminModal(false);
         setEditingAdmin(null);
         resetAdminForm();
         fetchAdmins();
       } else {
-        setError(data.error || 'Failed to save admin');
+        setError(data.error || 'Échec de la sauvegarde de l\'administrateur');
       }
     } catch {
-      setError('Error saving admin');
+      setError('Erreur lors de la sauvegarde de l\'administrateur');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteAdmin = async (adminId: string) => {
-    if (!confirm('Are you sure you want to delete this admin? This action cannot be undone.')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cet administrateur ? Cette action ne peut pas être annulée.')) return;
 
     setLoading(true);
     try {
@@ -718,13 +718,13 @@ export default function AdminPanel() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess('Admin deleted successfully!');
+        setSuccess('Administrateur supprimé avec succès !');
         fetchAdmins();
       } else {
-        setError(data.error || 'Failed to delete admin');
+        setError(data.error || 'Échec de la suppression de l\'administrateur');
       }
     } catch {
-      setError('Error deleting admin');
+      setError('Erreur lors de la suppression de l\'administrateur');
     } finally {
       setLoading(false);
     }
@@ -1048,7 +1048,7 @@ export default function AdminPanel() {
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-gray-100 text-gray-600'
                             }`}>
-                              {category.isActive ? 'Active' : 'Inactive'}
+                              {category.isActive ? 'Actif' : 'Inactif'}
                             </span>
                             <span className="text-gray-500">
                               Ordre: {category.order}
@@ -1147,7 +1147,7 @@ export default function AdminPanel() {
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-red-100 text-red-800'
                             }`}>
-                              {category.isActive ? 'Active' : 'Inactive'}
+                              {category.isActive ? 'Actif' : 'Inactif'}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -1443,7 +1443,7 @@ export default function AdminPanel() {
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-gray-100 text-gray-600'
                             }`}>
-                              {promotion.isActive ? 'Active' : 'Inactive'}
+                              {promotion.isActive ? 'Actif' : 'Inactif'}
                             </span>
                           </div>
                           <div className="mt-3 flex space-x-2">
@@ -1539,7 +1539,7 @@ export default function AdminPanel() {
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-red-100 text-red-800'
                             }`}>
-                              {promotion.isActive ? 'Active' : 'Inactive'}
+                              {promotion.isActive ? 'Actif' : 'Inactif'}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -1750,7 +1750,7 @@ export default function AdminPanel() {
                   {/* Basic Info */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Product Name *
+                      Nom du Produit *
                     </label>
                     <input
                       type="text"
@@ -1758,13 +1758,13 @@ export default function AdminPanel() {
                       value={productForm.name}
                       onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Enter product name"
+                      placeholder="Entrez le nom du produit"
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Category *
+                      Catégorie *
                     </label>
                     <select
                       required
@@ -1772,7 +1772,7 @@ export default function AdminPanel() {
                       onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                     >
-                      <option value="">Select category</option>
+                      <option value="">Sélectionnez une catégorie</option>
                       {categories.map((category) => (
                         <option key={category._id} value={category.title}>
                           {category.title}
@@ -1791,20 +1791,20 @@ export default function AdminPanel() {
                       value={productForm.description}
                       onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Enter product description"
+                      placeholder="Entrez la description du produit"
                     />
                   </div>
 
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Main Product Image *
+                      Image Principale du Produit *
                     </label>
                     {productForm.image ? (
                       <div className="space-y-4">
                         <div className="flex items-center space-x-4">
                           <Image
                             src={productForm.image}
-                            alt="Product preview"
+                            alt="Aperçu du produit"
                             className="w-20 h-20 object-cover rounded-md border"
                             width={80}
                             height={80}
@@ -1817,7 +1817,7 @@ export default function AdminPanel() {
                               onClick={() => setProductForm({ ...productForm, image: '' })}
                               className="text-red-600 hover:text-red-800 text-sm mt-1"
                             >
-                              Remove image
+                              Supprimer l'image
                             </button>
                           </div>
                         </div>
@@ -1829,11 +1829,11 @@ export default function AdminPanel() {
                           onClientUploadComplete={(res) => {
                             if (res && res[0]) {
                               setProductForm({ ...productForm, image: res[0].url });
-                              setSuccess('Image uploaded successfully!');
+                              setSuccess('Image téléchargée avec succès !');
                             }
                           }}
                           onUploadError={(error: Error) => {
-                            setError(`Upload failed: ${error.message}`);
+                            setError(`Échec du téléchargement : ${error.message}`);
                           }}
                           appearance={{
                             button: {
@@ -1851,7 +1851,7 @@ export default function AdminPanel() {
                           }}
                         />
                         <p className="text-xs text-gray-500 mt-2 text-center">
-                          Upload a product image (max 4MB)
+                          Téléchargez une image de produit (max 4MB)
                         </p>
                       </div>
                     )}
@@ -1859,7 +1859,7 @@ export default function AdminPanel() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Additional Images (Optional)
+                      Images Supplémentaires (Optionnel)
                     </label>
                     <div className="space-y-3">
                       {productForm.images && productForm.images.length > 0 && (
@@ -1868,7 +1868,7 @@ export default function AdminPanel() {
                             <div key={index} className="relative">
                               <Image
                                 src={imageUrl}
-                                alt={`Additional image ${index + 1}`}
+                                alt={`Image supplémentaire ${index + 1}`}
                                 className="w-full h-20 object-cover rounded-md border"
                                 width={80}
                                 height={80}
@@ -1898,11 +1898,11 @@ export default function AdminPanel() {
                                 ...productForm, 
                                 images: [...currentImages, res[0].url] 
                               });
-                              setSuccess('Additional image uploaded successfully!');
+                              setSuccess('Image supplémentaire téléchargée avec succès !');
                             }
                           }}
                           onUploadError={(error: Error) => {
-                            setError(`Upload failed: ${error.message}`);
+                            setError(`Échec du téléchargement : ${error.message}`);
                           }}
                           appearance={{
                             button: {
@@ -1920,7 +1920,7 @@ export default function AdminPanel() {
                           }}
                         />
                         <p className="text-xs text-gray-500 mt-1 text-center">
-                          Add more product images
+                          Ajoutez plus d'images de produit
                         </p>
                       </div>
                     </div>
@@ -1931,13 +1931,13 @@ export default function AdminPanel() {
                 {/* Variants Section */}
                 <div>
                   <div className="flex justify-between items-center mb-4">
-                    <h4 className="text-lg font-medium text-gray-900">Product Variants</h4>
+                    <h4 className="text-lg font-medium text-gray-900">Variantes du Produit</h4>
                     <button
                       type="button"
                       onClick={addVariant}
                       className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition-colors text-sm"
                     >
-                      Add Variant
+                      Ajouter une Variante
                     </button>
                   </div>
 
@@ -1945,14 +1945,14 @@ export default function AdminPanel() {
                     {productForm.variants.map((variant, index) => (
                       <div key={index} className="p-4 border border-gray-200 rounded-md bg-gray-50">
                         <div className="flex justify-between items-center mb-3">
-                          <h5 className="font-medium text-gray-900">Variant {index + 1}</h5>
+                          <h5 className="font-medium text-gray-900">Variante {index + 1}</h5>
                           {productForm.variants.length > 1 && (
                             <button
                               type="button"
                               onClick={() => removeVariant(index)}
                               className="text-red-600 hover:text-red-800 text-sm"
                             >
-                              Remove
+                              Supprimer
                             </button>
                           )}
                         </div>
@@ -1960,7 +1960,7 @@ export default function AdminPanel() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Variant Name *
+                              Nom de la Variante *
                             </label>
                             <input
                               type="text"
@@ -1968,13 +1968,13 @@ export default function AdminPanel() {
                               value={variant.name}
                               onChange={(e) => updateVariant(index, 'name', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              placeholder="e.g., Standard, Large, Red"
+                              placeholder="ex: Standard, Large, Rouge"
                             />
                           </div>
 
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Price * ($)
+                              Prix * (€)
                             </label>
                             <input
                               type="number"
@@ -1989,7 +1989,7 @@ export default function AdminPanel() {
 
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Original Price ($)
+                              Prix Original (€)
                             </label>
                             <input
                               type="number"
@@ -2003,7 +2003,7 @@ export default function AdminPanel() {
 
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Stock Quantity
+                              Quantité en Stock
                             </label>
                             <input
                               type="number"
@@ -2022,7 +2022,7 @@ export default function AdminPanel() {
                                 onChange={(e) => updateVariant(index, 'inStock', e.target.checked)}
                                 className="mr-2"
                               />
-                              <span className="text-sm text-gray-700">In Stock</span>
+                              <span className="text-sm text-gray-700">En Stock</span>
                             </label>
 
                             <label className="flex items-center">
@@ -2032,7 +2032,7 @@ export default function AdminPanel() {
                                 onChange={(e) => updateVariant(index, 'isDefault', e.target.checked)}
                                 className="mr-2"
                               />
-                              <span className="text-sm text-gray-700">Default</span>
+                              <span className="text-sm text-gray-700">Par Défaut</span>
                             </label>
                           </div>
                         </div>
@@ -2048,14 +2048,14 @@ export default function AdminPanel() {
                     onClick={closeModal}
                     className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    Cancel
+                    Annuler
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
-                    {loading ? 'Saving...' : editingProduct ? 'Update Product' : 'Create Product'}
+                    {loading ? 'Sauvegarde...' : editingProduct ? 'Modifier le Produit' : 'Créer le Produit'}
                   </button>
                 </div>
               </form>
@@ -2071,7 +2071,7 @@ export default function AdminPanel() {
             <div className="mt-3">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-medium text-gray-900">
-                  {editingCategory ? 'Edit Category' : 'Add New Category'}
+                  {editingCategory ? 'Modifier la Catégorie' : 'Ajouter une Nouvelle Catégorie'}
                 </h3>
                 <button
                   onClick={closeModal}
@@ -2088,7 +2088,7 @@ export default function AdminPanel() {
                   {/* Category Title */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Category Title *
+                      Titre de la Catégorie *
                     </label>
                     <input
                       type="text"
@@ -2096,7 +2096,7 @@ export default function AdminPanel() {
                       value={categoryForm.title}
                       onChange={(e) => setCategoryForm({ ...categoryForm, title: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Enter category title"
+                      placeholder="Entrez le titre de la catégorie"
                     />
                   </div>
 
@@ -2110,21 +2110,21 @@ export default function AdminPanel() {
                       value={categoryForm.description}
                       onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      placeholder="Enter category description (optional)"
+                      placeholder="Entrez la description de la catégorie (optionnel)"
                     />
                   </div>
 
                   {/* Category Image */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Category Image *
+                      Image de la Catégorie *
                     </label>
                     {categoryForm.image ? (
                       <div className="space-y-4">
                         <div className="flex items-center space-x-4">
                           <Image
                             src={categoryForm.image}
-                            alt="Category preview"
+                            alt="Aperçu de la catégorie"
                             className="w-20 h-20 object-cover rounded-md border"
                             width={80}
                             height={80}
@@ -2137,7 +2137,7 @@ export default function AdminPanel() {
                               onClick={() => setCategoryForm({ ...categoryForm, image: '' })}
                               className="text-red-600 hover:text-red-800 text-sm mt-1"
                             >
-                              Remove image
+                              Supprimer l'image
                             </button>
                           </div>
                         </div>
@@ -2149,11 +2149,11 @@ export default function AdminPanel() {
                           onClientUploadComplete={(res) => {
                             if (res && res[0]) {
                               setCategoryForm({ ...categoryForm, image: res[0].url });
-                              setSuccess('Category image uploaded successfully!');
+                              setSuccess('Image de catégorie téléchargée avec succès !');
                             }
                           }}
                           onUploadError={(error: Error) => {
-                            setError(`Upload failed: ${error.message}`);
+                            setError(`Échec du téléchargement : ${error.message}`);
                           }}
                           appearance={{
                             button: {
@@ -2171,7 +2171,7 @@ export default function AdminPanel() {
                           }}
                         />
                         <p className="text-xs text-gray-500 mt-2 text-center">
-                          Upload a category image (max 4MB)
+                          Téléchargez une image de catégorie (max 4MB)
                         </p>
                       </div>
                     )}
@@ -2188,7 +2188,7 @@ export default function AdminPanel() {
                         className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
                       <label htmlFor="categoryActive" className="text-sm font-medium text-gray-700">
-                        Category is active and visible to customers
+                        La catégorie est active et visible pour les clients
                       </label>
                     </div>
                   </div>
@@ -2201,14 +2201,14 @@ export default function AdminPanel() {
                     onClick={closeModal}
                     className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    Cancel
+                    Annuler
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
-                    {loading ? 'Saving...' : editingCategory ? 'Update Category' : 'Create Category'}
+                    {loading ? 'Sauvegarde...' : editingCategory ? 'Modifier la Catégorie' : 'Créer la Catégorie'}
                   </button>
                 </div>
               </form>
