@@ -3,6 +3,23 @@
 import { useState, useEffect } from 'react';
 import AdminPanel from '@/components/AdminPanel';
 
+// Prevent caching of admin page
+if (typeof window !== 'undefined') {
+  // Add no-cache headers in browser
+  window.addEventListener('beforeunload', () => {
+    // Clear any cached admin data
+    if ('caches' in window) {
+      caches.keys().then(names => {
+        names.forEach(name => {
+          if (name.includes('admin')) {
+            caches.delete(name);
+          }
+        });
+      });
+    }
+  });
+}
+
 interface Admin {
   id: string;
   name: string;

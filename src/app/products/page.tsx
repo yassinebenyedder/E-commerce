@@ -114,10 +114,10 @@ function ProductsContent() {
                 onChange={(e) => handlePriceRangeChange(e.target.value)}
               >
                 <option value="">Tous les Prix</option>
-                <option value="0-25">0 - 25 TND</option>
-                <option value="25-50">25 - 50 TND</option>
-                <option value="50-100">50 - 100 TND</option>
-                <option value="100">100+ TND</option>
+                <option value="0-25">0 - 25 DT</option>
+                <option value="25-50">25 - 50 DT</option>
+                <option value="50-100">50 - 100 DT</option>
+                <option value="100">100+ DT</option>
               </select>
               
               {hasActiveFilters && (
@@ -137,7 +137,7 @@ function ProductsContent() {
                 value={selectedSortBy}
                 onChange={(e) => handleSortByChange(e.target.value)}
               >
-                <option value="">Vedette</option>
+                <option value="">Défaut</option>
                 <option value="price-low">Prix: Croissant</option>
                 <option value="price-high">Prix: Décroissant</option>
                 <option value="newest">Plus Récent</option>
@@ -157,7 +157,7 @@ function ProductsContent() {
               )}
               {selectedPriceRange && (
                 <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                  Prix: {selectedPriceRange.replace('-', ' - ')} TND
+                  Prix: {selectedPriceRange.replace('-', ' - ')} DT
                   {selectedPriceRange === '100' && '+'}
                 </span>
               )}
@@ -165,7 +165,7 @@ function ProductsContent() {
                 <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
                   Tri: {selectedSortBy === 'price-low' ? 'Prix: Croissant' : 
                          selectedSortBy === 'price-high' ? 'Prix: Décroissant' : 
-                         selectedSortBy === 'newest' ? 'Plus Récent' : 'Vedette'}
+                         selectedSortBy === 'newest' ? 'Plus Récent' : 'Défaut'}
                 </span>
               )}
             </div>
