@@ -107,7 +107,45 @@ export default function Header() {
   }, [showMobileMenu, showDesktopCategories]);
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <div className="sticky top-0 z-50">
+      {/* Promotional Bar */}
+      <div className="bg-gradient-to-r from-slate-600 to-slate-700 text-white py-2 overflow-hidden relative">
+        <div className="flex animate-slide">
+          <div className="flex-shrink-0 whitespace-nowrap px-8">
+            <span className="text-sm font-medium">
+              🚚 Livraison Gratuite à partir de 50 DT d&apos;achat
+            </span>
+          </div>
+          <div className="flex-shrink-0 whitespace-nowrap px-8">
+            <span className="text-sm font-medium">
+              🚚 Livraison Gratuite à partir de 50 DT d&apos;achat
+            </span>
+          </div>
+          <div className="flex-shrink-0 whitespace-nowrap px-8">
+            <span className="text-sm font-medium">
+              🚚 Livraison Gratuite à partir de 50 DT d&apos;achat
+            </span>
+          </div>
+          <div className="flex-shrink-0 whitespace-nowrap px-8">
+            <span className="text-sm font-medium">
+              🚚 Livraison Gratuite à partir de 50 DT d&apos;achat
+            </span>
+          </div>
+          <div className="flex-shrink-0 whitespace-nowrap px-8">
+            <span className="text-sm font-medium">
+              🚚 Livraison Gratuite à partir de 50 DT d&apos;achat
+            </span>
+          </div>
+          <div className="flex-shrink-0 whitespace-nowrap px-8">
+            <span className="text-sm font-medium">
+              🚚 Livraison Gratuite à partir de 50 DT d&apos;achat
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <header className="bg-white shadow-sm border-b border-gray-200 relative z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -116,10 +154,10 @@ export default function Header() {
               href="/" 
               className="group flex flex-col justify-center py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-200"
             >
-              <span className="text-lg sm:text-2xl font-black text-gray-900 group-hover:text-red-600 transition-colors duration-200 tracking-tight">
+              <span className="text-lg sm:text-2xl font-black text-gray-900 group-hover:text-gray-700 transition-colors duration-200 tracking-tight">
                 Ben Yedder
               </span>
-              <span className="text-[10px] sm:text-xs font-semibold text-red-600 uppercase tracking-[0.2em] -mt-1 group-hover:text-red-700 transition-colors duration-200">
+              <span className="text-[10px] sm:text-xs font-semibold text-gray-900 uppercase tracking-[0.2em] -mt-1 group-hover:text-gray-700 transition-colors duration-200">
                 Parfums
               </span>
             </Link>
@@ -358,5 +396,6 @@ export default function Header() {
         </div>
       )}
     </header>
+    </div>
   );
 }

@@ -125,16 +125,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             <div className="flex items-center space-x-1 sm:space-x-2">
               {priceRange ? (
                 <span className="text-sm sm:text-lg font-bold text-gray-900">
-                  {priceRange.min.toFixed(2)} - {priceRange.max.toFixed(2)} TND
+                  {priceRange.min.toFixed(2)} - {priceRange.max.toFixed(2)} DT
                 </span>
               ) : (
                 <span className="text-sm sm:text-lg font-bold text-gray-900">
-                  {displayPrice.toFixed(2)} TND
-                </span>
-              )}
-              {originalPrice && (
-                <span className="text-xs sm:text-sm text-gray-500 line-through">
-                  {originalPrice.toFixed(2)} TND
+                  {displayPrice.toFixed(2)} DT
                 </span>
               )}
             </div>

@@ -44,8 +44,7 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
     try {
       // Calculate correct total from cart items
       const subtotal = cartItems.reduce((sum, item) => sum + item.itemTotal, 0);
-      const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-      const deliveryFee = totalQuantity >= 2 ? 0 : 5;
+      const deliveryFee = subtotal >= 50 ? 0 : 5;
       const finalTotal = subtotal + deliveryFee;
 
       // Create order object
@@ -132,27 +131,32 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
                     <span className="text-gray-600">
                       {item.product.name} {item.variant && `(${item.variant.name})`} × {item.quantity}
                     </span>
-                    <span className="text-gray-900">{item.itemTotal.toFixed(2)} TND</span>
+                    <span className="text-gray-900">{item.itemTotal.toFixed(2)} DT</span>
                   </div>
                 ))}
                 <div className="border-t pt-2 mt-2 space-y-1">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Sous-total</span>
-                    <span className="text-gray-900">{cartItems.reduce((sum, item) => sum + item.itemTotal, 0).toFixed(2)} TND</span>
+                    <span className="text-gray-900">{cartItems.reduce((sum, item) => sum + item.itemTotal, 0).toFixed(2)} DT</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">
-                      Livraison {cartItems.reduce((sum, item) => sum + item.quantity, 0) >= 2 ? '(Gratuite pour 2+ articles)' : ''}
-                    </span>
-                    <span className="text-gray-900">
-                      {cartItems.reduce((sum, item) => sum + item.quantity, 0) >= 2 ? 'Gratuite' : '5.00 TND'}
+                    <span className="text-gray-600">Livraison</span>
+                    <span className={`text-gray-900 ${cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 'text-green-600 font-medium' : ''}`}>
+                      {cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 'Gratuite' : '5.00 DT'}
                     </span>
                   </div>
+                  {cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 && (
+                    <div className="flex justify-center">
+                      <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                        ✓ Livraison gratuite obtenue (commande ≥ 50 DT)
+                      </span>
+                    </div>
+                  )}
                   <div className="flex justify-between font-semibold">
                     <span className='text-black'>Total</span>
                     <span className='text-black'>
                       {(cartItems.reduce((sum, item) => sum + item.itemTotal, 0) + 
-                        (cartItems.reduce((sum, item) => sum + item.quantity, 0) >= 2 ? 0 : 5)).toFixed(2)} TND
+                        (cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 0 : 5)).toFixed(2)} DT
                     </span>
                   </div>
                 </div>
@@ -257,14 +261,14 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
                   onClick={onClose}
                   className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200"
                 >
-                  Cancel
+                  Annuler
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors duration-200"
                 >
-                  {isSubmitting ? 'Placing Order...' : 'Place Order'}
+                  {isSubmitting ? 'Commande en cours...' : 'Passer Commande'}
                 </button>
               </div>
             </form>

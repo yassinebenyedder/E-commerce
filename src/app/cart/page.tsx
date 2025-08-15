@@ -144,8 +144,8 @@ export default function CartPage() {
                       </div>
 
                       <div className="text-right">
-                        <p className="text-lg font-semibold text-gray-900">{item.itemTotal.toFixed(2)} TND</p>
-                        <p className="text-sm text-gray-500">{item.price.toFixed(2)} TND chacun</p>
+                        <p className="text-lg font-semibold text-gray-900">{item.itemTotal.toFixed(2)} DT</p>
+                        <p className="text-sm text-gray-500">{item.price.toFixed(2)} DT chacun</p>
                       </div>
                     </div>
                   </div>
@@ -161,16 +161,30 @@ export default function CartPage() {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Sous-total ({itemCount} {itemCount === 1 ? 'article' : 'articles'})</span>
-                  <span>{total.toFixed(2)} TND</span>
+                  <span>{total.toFixed(2)} DT</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Livraison {itemCount >= 2 ? '(Gratuite pour 2+ articles)' : ''}</span>
-                  <span>{itemCount >= 2 ? 'Gratuite' : '5.00 TND'}</span>
+                  <span>Livraison</span>
+                  <span className={total >= 50 ? 'text-green-600 font-medium' : ''}>{total >= 50 ? 'Gratuite' : '5.00 DT'}</span>
                 </div>
+                {total >= 50 && (
+                  <div className="flex justify-center">
+                    <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                      ✓ Livraison gratuite obtenue (commande ≥ 50 DT)
+                    </span>
+                  </div>
+                )}
+                {total < 50 && (
+                  <div className="flex justify-center">
+                    <span className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded-full">
+                      Ajoutez {(50 - total).toFixed(2)} DT pour la livraison gratuite
+                    </span>
+                  </div>
+                )}
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-lg font-semibold text-gray-900">
                     <span className="text-black">Total</span>
-                    <span>{(total + (itemCount >= 2 ? 0 : 5)).toFixed(2)} TND</span>
+                    <span>{(total + (total >= 50 ? 0 : 5)).toFixed(2)} DT</span>
                   </div>
                 </div>
               </div>
@@ -187,7 +201,7 @@ export default function CartPage() {
                   href="/products"
                   className="text-blue-600 hover:text-blue-700 text-sm transition-colors duration-200"
                 >
-                  Continue Shopping
+                  Continuer les Achats
                 </Link>
               </div>
             </div>

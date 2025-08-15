@@ -85,13 +85,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         {/* Product Images */}
         <div className="space-y-4">
           {/* Main Image */}
-          <div className="aspect-square overflow-hidden rounded-2xl bg-gray-100">
+          <div className="relative w-full min-h-[400px] max-h-[700px] overflow-hidden rounded-2xl bg-gray-100">
             <Image
               src={productImages[selectedImageIndex]}
               alt={product.name}
               width={600}
-              height={600}
-              className="w-full h-full object-cover"
+              height={800}
+              className="w-full h-auto object-contain"
               unoptimized={product.image.endsWith('.svg')}
             />
           </div>
@@ -127,27 +127,27 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           {/* Header */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              <span className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wide">
                 {product.category}
               </span>
             </div>
             
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">{product.name}</h1>
+            <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">{product.name}</h1>
           </div>
 
           {/* Price */}
-          <div className="space-y-4">
-            <div className="flex items-baseline space-x-3">
-              <span className="text-3xl font-bold text-gray-900">
-                {currentPrice.toFixed(2)} TND
+          <div className="space-y-3 sm:space-y-4">
+            <div className="flex items-baseline space-x-2 sm:space-x-3">
+              <span className="text-xl sm:text-3xl font-bold text-gray-900">
+                {currentPrice.toFixed(2)} DT
               </span>
               {currentOriginalPrice && (
-                <span className="text-xl text-gray-500 line-through">
-                  {currentOriginalPrice.toFixed(2)} TND
+                <span className="text-lg sm:text-xl text-gray-500 line-through">
+                  {currentOriginalPrice.toFixed(2)} DT
                 </span>
               )}
               {product.isOnSale && discountPercentage > 0 && (
-                <span className="bg-red-100 text-red-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                <span className="bg-red-100 text-red-800 text-xs sm:text-sm font-medium px-2 sm:px-2.5 py-0.5 rounded">
                   {discountPercentage}% OFF
                 </span>
               )}
@@ -156,7 +156,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             {/* Stock Status */}
             <div className="flex items-center space-x-2">
               <div className={`w-2 h-2 rounded-full ${(isInStock && currentStock > 0) ? 'bg-green-400' : 'bg-red-400'}`} />
-              <span className={`text-sm font-medium ${(isInStock && currentStock > 0) ? 'text-green-600' : 'text-red-600'}`}>
+              <span className={`text-xs sm:text-sm font-medium ${(isInStock && currentStock > 0) ? 'text-green-600' : 'text-red-600'}`}>
                 {(isInStock && currentStock > 0) ? 'En Stock' : 'Rupture de Stock'}
               </span>
             </div>
@@ -164,14 +164,14 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
           {/* Variant Selection */}
           {product.variants && product.variants.length > 0 && (
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">Sélectionner une Option</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">Sélectionner une Option</h3>
               <div className="grid grid-cols-1 gap-3">
                 {product.variants?.map((variant, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedVariant(variant)}
-                    className={`p-4 border-2 rounded-xl text-left transition-all duration-200 ${
+                    className={`p-3 sm:p-4 border-2 rounded-xl text-left transition-all duration-200 ${
                       selectedVariant?.name === variant.name
                         ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
@@ -180,16 +180,16 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   >
                     <div className="flex justify-between items-center">
                       <div>
-                        <span className="font-semibold text-gray-900 text-lg">{variant.name}</span>
+                        <span className="font-semibold text-gray-900 text-sm sm:text-lg">{variant.name}</span>
                         {!variant.inStock && (
-                          <span className="block text-sm text-red-600 mt-1">Rupture de stock</span>
+                          <span className="block text-xs sm:text-sm text-red-600 mt-1">Rupture de stock</span>
                         )}
                       </div>
                       <div className="text-right">
-                        <span className="text-xl font-bold text-gray-900">{variant.price.toFixed(2)} TND</span>
+                        <span className="text-lg sm:text-xl font-bold text-gray-900">{variant.price.toFixed(2)} DT</span>
                         {variant.originalPrice && (
-                          <span className="block text-sm text-gray-500 line-through">
-                            {variant.originalPrice.toFixed(2)} TND
+                          <span className="block text-xs sm:text-sm text-gray-500 line-through">
+                            {variant.originalPrice.toFixed(2)} DT
                           </span>
                         )}
                       </div>
@@ -201,25 +201,25 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           )}
 
           {/* Quantity and Add to Cart */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div className="flex items-center space-x-4">
               <div className="flex items-center">
-                <span className="text-sm font-medium text-gray-700 mr-4">Quantité</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-700 mr-3 sm:mr-4">Quantité</span>
                 <div className="flex items-center border border-gray-300 rounded-lg">
                   <button
                     onClick={() => handleQuantityChange(-1)}
                     disabled={quantity <= 1}
-                    className="p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-1.5 sm:p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Minus className="w-4 h-4 text-black" />
+                    <Minus className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
                   </button>
-                  <span className="px-4 py-2 text-center min-w-[60px] text-black">{quantity}</span>
+                  <span className="px-3 sm:px-4 py-1.5 sm:py-2 text-center min-w-[50px] sm:min-w-[60px] text-sm sm:text-base text-black">{quantity}</span>
                   <button
                     onClick={() => handleQuantityChange(1)}
                     disabled={quantity >= currentStock}
-                    className="p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-1.5 sm:p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Plus className="w-4 h-4 text-black" />
+                    <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
                   </button>
                 </div>
               </div>
@@ -228,9 +228,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <button
               onClick={handleAddToCart}
               disabled={!isInStock || currentStock <= 0 || isAddingToCart}
-              className="w-full bg-blue-600 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center space-x-2"
+              className="w-full bg-blue-600 text-white py-2.5 sm:py-4 px-3 sm:px-6 rounded-xl font-semibold text-sm sm:text-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center space-x-2"
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>
                 {isAddingToCart 
                   ? 'Ajout en cours...' 
@@ -243,23 +243,23 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
           {/* Description */}
           {product.description && (
-            <div className="border-t pt-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-              <p className="text-gray-600 leading-relaxed">{product.description}</p>
+            <div className="border-t pt-4 sm:pt-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">Description</h3>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{product.description}</p>
             </div>
           )}
 
           {/* Product Details */}
-          <div className="border-t pt-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Product Details</h3>
-            <dl className="grid grid-cols-1 gap-3">
+          <div className="border-t pt-4 sm:pt-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">Détails du Produit</h3>
+            <dl className="grid grid-cols-1 gap-2 sm:gap-3">
               <div className="flex justify-between">
-                <dt className="text-sm text-gray-600">Category</dt>
-                <dd className="text-sm font-medium text-gray-900">{product.category}</dd>
+                <dt className="text-xs sm:text-sm text-gray-600">Catégorie</dt>
+                <dd className="text-xs sm:text-sm font-medium text-gray-900">{product.category}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-sm text-gray-600">Availability</dt>
-                <dd className="text-sm font-medium text-gray-900">
+                <dt className="text-xs sm:text-sm text-gray-600">Disponibilité</dt>
+                <dd className="text-xs sm:text-sm font-medium text-gray-900">
                   {isInStock ? 'En Stock' : 'Rupture de Stock'}
                 </dd>
               </div>

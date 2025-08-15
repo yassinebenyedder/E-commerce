@@ -93,3 +93,17 @@ select option {
 select option[value=""] {
   color: #6b7280 !important; /* gray-500 */
 }
+
+/* Sliding animation for promotional bar */
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-slide {
+  animation: slide 15s linear infinite;
+}
