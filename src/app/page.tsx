@@ -8,7 +8,7 @@ export default function Home() {
       <SimpleHero />
       <CategoryShortcuts />
       <div id="products">
-        <ProductGrid limit={8} />
+        <ProductGrid limit={8} sortBy="newest" />
       </div>
     </div>
   );

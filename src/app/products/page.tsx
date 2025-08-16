@@ -23,7 +23,7 @@ function ProductsContent() {
   const searchQuery = searchParams.get('search');
   const selectedCategory = searchParams.get('category') || '';
   const selectedPriceRange = searchParams.get('priceRange') || '';
-  const selectedSortBy = searchParams.get('sortBy') || '';
+  const selectedSortBy = searchParams.get('sortBy') || 'alphabetical-asc';
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -137,7 +137,8 @@ function ProductsContent() {
                 value={selectedSortBy}
                 onChange={(e) => handleSortByChange(e.target.value)}
               >
-                <option value="">Défaut</option>
+                <option value="alphabetical-asc">Alphabétique: A → Z</option>
+                <option value="alphabetical-desc">Alphabétique: Z → A</option>
                 <option value="price-low">Prix: Croissant</option>
                 <option value="price-high">Prix: Décroissant</option>
                 <option value="newest">Plus Récent</option>
@@ -165,7 +166,9 @@ function ProductsContent() {
                 <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
                   Tri: {selectedSortBy === 'price-low' ? 'Prix: Croissant' : 
                          selectedSortBy === 'price-high' ? 'Prix: Décroissant' : 
-                         selectedSortBy === 'newest' ? 'Plus Récent' : 'Défaut'}
+                         selectedSortBy === 'newest' ? 'Plus Récent' : 
+                         selectedSortBy === 'alphabetical-asc' ? 'Alphabétique: A → Z' :
+                         selectedSortBy === 'alphabetical-desc' ? 'Alphabétique: Z → A' : 'Défaut'}
                 </span>
               )}
             </div>

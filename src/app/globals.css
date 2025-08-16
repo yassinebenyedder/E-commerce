@@ -97,10 +97,10 @@ select option[value=""] {
 /* Sliding animation for promotional bar */
 @keyframes slide {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(-100%);
   }
 }
 

@@ -66,10 +66,20 @@ export async function GET(request: NextRequest) {
         case 'newest':
           productQuery = productQuery.sort({ createdAt: -1 });
           break;
+        case 'alphabetical-asc':
+          productQuery = productQuery.sort({ name: 1 });
+          break;
+        case 'alphabetical-desc':
+          productQuery = productQuery.sort({ name: -1 });
+          break;
         default:
-          // Featured - no specific sorting
+          // Default to alphabetical ascending sorting
+          productQuery = productQuery.sort({ name: 1 });
           break;
       }
+    } else {
+      // Default to alphabetical ascending sorting when no sortBy is specified
+      productQuery = productQuery.sort({ name: 1 });
     }
     
     if (limit > 0) {
