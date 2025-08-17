@@ -1,28 +1,5 @@
 import Link from 'next/link';
-import { ShoppingBag, Users, Award, Truck } from 'lucide-react';
 
-const features = [
-  {
-    icon: ShoppingBag,
-    title: 'Produits de Qualité',
-    description: 'Nous sélectionnons soigneusement chaque produit dans notre boutique pour garantir la plus haute qualité et la meilleure valeur pour nos clients.',
-  },
-  {
-    icon: Users,
-    title: 'Client d&apos;Abord',
-    description: 'Votre satisfaction est notre priorité. Nous offrons un service client exceptionnel et un support à chaque étape.',
-  },
-  {
-    icon: Award,
-    title: 'Marques de Confiance',
-    description: 'Nous nous associons avec des marques reconnues et des fournisseurs vérifiés pour vous apporter des produits authentiques et fiables.',
-  },
-  {
-    icon: Truck,
-    title: 'Livraison Rapide',
-    description: 'Livraison rapide et sécurisée partout en Tunisie. La plupart des commandes sont expédiées sous 24 heures et arrivent en 2-5 jours ouvrables.',
-  },
-];
 
 const stats = [
   { label: 'Livraison Rapide', value: '24-48 heures' },
@@ -50,7 +27,7 @@ export default function AboutPage() {
               <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl shadow-lg p-8 flex flex-col h-full justify-center">
                 <div className="flex items-center mb-4">
                   <span className="text-3xl md:text-4xl mr-3">🌹</span>
-                  <h2 className="text-2xl md:text-3xl font-bold text-pink-700">L'Art du Parfum</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold text-pink-700">L&apos;Art du Parfum</h2>
                 </div>
                 <p className="text-gray-700 text-lg mb-4">
                   Né d’une passion pour l’art du parfum, <span className="font-semibold text-pink-700">Ben Yedder Parfums</span> est plus qu’une simple boutique en ligne : c’est une invitation à voyager à travers les senteurs.
