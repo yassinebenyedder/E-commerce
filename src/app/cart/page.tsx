@@ -90,9 +90,9 @@ export default function CartPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
-              <div key={`${item.productId}-${item.variantId || 'default'}`} className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
+              <div key={`${item.productId}-${item.variantId || 'default'}`} className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div className="flex-shrink-0 mx-auto sm:mx-0">
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
                       <Image
                         src={item.product.image}
@@ -105,19 +105,19 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 w-full">
                     <Link
                       href={`/products/${item.productId}`}
-                      className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200"
+                      className="text-base sm:text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200"
                     >
                       {item.product.name}
                     </Link>
-                    <p className="text-sm text-gray-500 mt-1">{item.product.category}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1">{item.product.category}</p>
                     {item.variant && (
-                      <p className="text-sm text-gray-600 mt-1">Variant: {item.variant.name}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 mt-1">Variant: {item.variant.name}</p>
                     )}
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center space-x-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 gap-2">
+                      <div className="flex items-center space-x-2 sm:space-x-3">
                         <div className="flex items-center border border-gray-300 rounded-lg">
                           <button
                             onClick={() => handleQuantityChange(item.productId, item.variantId, item.quantity - 1)}
@@ -126,7 +126,7 @@ export default function CartPage() {
                           >
                             <Minus className="w-4 h-4 text-black" />
                           </button>
-                          <span className="px-4 py-2 text-center min-w-[60px] text-black">{item.quantity}</span>
+                          <span className="px-2 sm:px-4 py-2 text-center min-w-[40px] sm:min-w-[60px] text-black">{item.quantity}</span>
                           <button
                             onClick={() => handleQuantityChange(item.productId, item.variantId, item.quantity + 1)}
                             className="p-2 hover:bg-gray-50"
@@ -143,9 +143,9 @@ export default function CartPage() {
                         </button>
                       </div>
 
-                      <div className="text-right">
-                        <p className="text-lg font-semibold text-gray-900">{item.itemTotal.toFixed(2)} DT</p>
-                        <p className="text-sm text-gray-500">{item.price.toFixed(2)} DT chacun</p>
+                      <div className="text-left sm:text-right">
+                        <p className="text-base sm:text-lg font-semibold text-gray-900">{item.itemTotal.toFixed(2)} DT</p>
+                        <p className="text-xs sm:text-sm text-gray-500">{item.price.toFixed(2)} DT chacun</p>
                       </div>
                     </div>
                   </div>
@@ -154,8 +154,8 @@ export default function CartPage() {
             ))}
           </div>
 
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
+          <div className="lg:col-span-1 mt-8 lg:mt-0">
+            <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:sticky lg:top-8 w-full">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Résumé de Commande</h2>
               
               <div className="space-y-3 mb-6">
