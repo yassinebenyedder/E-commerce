@@ -4,13 +4,7 @@ import Product from '@/models/Product';
 import Cart from '@/models/Cart';
 import { randomBytes } from 'crypto';
 
-// Cart item interface
-interface CartItem {
-  productId: string;
-  variantId?: string;
-  quantity: number;
-  addedAt: Date;
-}
+
 
 // Generate or get session ID from cookies, set if missing
 function getOrSetSessionId(request: NextRequest): { sessionId: string; responseCookie?: string } {
@@ -30,7 +24,7 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
     const { sessionId, responseCookie } = getOrSetSessionId(request);
-    let cartDoc = await Cart.findOne({ sessionId });
+  const cartDoc = await Cart.findOne({ sessionId });
     const cartItems = cartDoc ? cartDoc.items : [];
     if (!cartItems || cartItems.length === 0) {
       const res = NextResponse.json({
@@ -187,7 +181,7 @@ export async function POST(request: NextRequest) {
       cartDoc = await Cart.create({ sessionId, items: [] });
     }
     // Check if item already exists in cart
-    const existingItemIndex = cartDoc.items.findIndex((item: any) =>
+    const existingItemIndex = cartDoc.items.findIndex((item: typeof cartDoc.items[0]) =>
       item.productId === productId && item.variantId === variantId
     );
     if (existingItemIndex >= 0) {
@@ -237,14 +231,14 @@ export async function PUT(request: NextRequest) {
         { status: 400 }
       );
     }
-    let cartDoc = await Cart.findOne({ sessionId });
+  const cartDoc = await Cart.findOne({ sessionId });
     if (!cartDoc) {
       return NextResponse.json(
         { success: false, error: 'Cart not found' },
         { status: 404 }
       );
     }
-    const itemIndex = cartDoc.items.findIndex((item: any) =>
+    const itemIndex = cartDoc.items.findIndex((item: typeof cartDoc.items[0]) =>
       item.productId === productId && item.variantId === variantId
     );
     if (itemIndex === -1) {
@@ -282,7 +276,7 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const productId = searchParams.get('productId');
     const variantId = searchParams.get('variantId');
-    let cartDoc = await Cart.findOne({ sessionId });
+  const cartDoc = await Cart.findOne({ sessionId });
     if (!cartDoc) {
       return NextResponse.json(
         { success: false, error: 'Cart not found' },
@@ -293,7 +287,7 @@ export async function DELETE(request: NextRequest) {
       // Clear entire cart
       cartDoc.items = [];
     } else {
-      const itemIndex = cartDoc.items.findIndex((item: any) =>
+      const itemIndex = cartDoc.items.findIndex((item: typeof cartDoc.items[0]) =>
         item.productId === productId && (variantId ? item.variantId === variantId : !item.variantId)
       );
       if (itemIndex === -1) {

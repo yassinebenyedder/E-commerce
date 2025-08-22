@@ -41,18 +41,29 @@ async function getProduct(id: string): Promise<IProduct | null> {
     await connectDB();
     
     const product = await Product.findById(id).lean();
-    
     if (product) {
+      const {
+        _id,
+        rating = 0,
+        reviewCount = 0,
+        variants = [],
+        ...rest
+      } = product as unknown as Omit<IProduct, 'variants' | '_id' | 'rating' | 'reviewCount'> & {
+        _id: { toString: () => string };
+        rating?: number;
+        reviewCount?: number;
+        variants?: (ProductVariant & { _id?: { toString: () => string } })[];
+      };
       return {
-        ...(product as any),
-        _id: (product as any)._id.toString(),
-        rating: (product as any).rating || 0,
-        reviewCount: (product as any).reviewCount || 0,
-        variants: (product as any).variants?.map((variant: any) => ({
+        ...rest,
+        _id: _id.toString(),
+        rating,
+        reviewCount,
+        variants: variants.map((variant) => ({
           ...variant,
-          _id: variant._id?.toString()
-        })) || []
-      } as IProduct;
+          _id: variant._id ? variant._id.toString() : undefined
+        }))
+      };
     }
 
     return null;
