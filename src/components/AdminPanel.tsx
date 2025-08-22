@@ -735,7 +735,7 @@ export default function AdminPanel() {
     setAdminForm({
       name: admin.name,
       email: admin.email,
-      password: '', // Don't populate password for editing
+      password: '',
       isActive: admin.isActive
     });
     setShowAdminModal(true);

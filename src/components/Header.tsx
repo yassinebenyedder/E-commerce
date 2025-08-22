@@ -58,9 +58,9 @@ export default function Header() {
   const toggleMobileCategoriesExpanded = () => {
     setShowMobileCategoriesExpanded(!showMobileCategoriesExpanded);
     if (!showMobileCategoriesExpanded) {
-      setCategories(allCategories); // Show all categories
+      setCategories(allCategories);
     } else {
-      setCategories(allCategories.slice(0, 3)); // Show only first 3
+      setCategories(allCategories.slice(0, 3));
     }
   };
 
@@ -84,7 +84,6 @@ export default function Header() {
     const handleClickOutside = (event: MouseEvent) => {
       if (showMobileMenu) {
         const target = event.target as HTMLElement;
-        // Check if click is outside the mobile menu and hamburger button
         if (!target.closest('.mobile-menu') && !target.closest('.hamburger-button')) {
           setShowMobileMenu(false);
         }

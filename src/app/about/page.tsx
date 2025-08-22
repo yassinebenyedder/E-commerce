@@ -23,7 +23,7 @@ export default function AboutPage() {
         <section className="py-16">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-10 items-center">
-              {/* Left: Main Story with Icon */}
+              {/* Left: Main Story */}
               <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl shadow-lg p-8 flex flex-col h-full justify-center">
                 <div className="flex items-center mb-4">
                   <span className="text-3xl md:text-4xl mr-3">🌹</span>

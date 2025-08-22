@@ -21,8 +21,8 @@ interface Product {
   _id?: string;
   id?: number;
   name: string;
-  basePrice?: number; // From database
-  price?: number; // For backward compatibility
+  basePrice?: number;
+  price?: number;
   originalPrice?: number;
   image: string;
   rating: number;

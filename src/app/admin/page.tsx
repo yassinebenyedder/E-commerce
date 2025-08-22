@@ -5,7 +5,7 @@ import AdminPanel from '@/components/AdminPanel';
 
 // Prevent caching of admin page
 if (typeof window !== 'undefined') {
-  // Add no-cache headers in browser
+  // no-cache headers in browser
   window.addEventListener('beforeunload', () => {
     // Clear any cached admin data
     if ('caches' in window) {
@@ -84,13 +84,9 @@ export default function AdminPage() {
   };
 
   const handleLogout = async () => {
-    try {
       await fetch('/api/admin/auth/logout', { method: 'POST' });
       setIsAuthenticated(false);
       setAdmin(null);
-    } catch {
-      // Silent error handling - logout locally regardless
-    }
   };
 
   if (isLoading) {

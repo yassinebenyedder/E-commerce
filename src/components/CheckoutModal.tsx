@@ -42,7 +42,7 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
     setIsSubmitting(true);
 
     try {
-      // Calculate correct total from cart items
+      // Calculate total from cart items
       const subtotal = cartItems.reduce((sum, item) => sum + item.itemTotal, 0);
       const deliveryFee = subtotal >= 50 ? 0 : 5;
       const finalTotal = subtotal + deliveryFee;

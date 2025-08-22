@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     // Price range filtering
     if (priceRange) {
       if (priceRange === '100') {
-        // Handle $100+ range
+        // Handle 100+ range
         query.variants = { $elemMatch: { price: { $gte: 100 } } };
       } else {
         const [min, max] = priceRange.split('-').map(Number);
@@ -73,12 +73,12 @@ export async function GET(request: NextRequest) {
           productQuery = productQuery.sort({ name: -1 });
           break;
         default:
-          // Default to alphabetical ascending sorting
+          // Default : alphabetical ascending sorting
           productQuery = productQuery.sort({ name: 1 });
           break;
       }
     } else {
-      // Default to alphabetical ascending sorting when no sortBy is specified
+      // Default : alphabetical ascending sorting when no sortBy is specified
       productQuery = productQuery.sort({ name: 1 });
     }
     

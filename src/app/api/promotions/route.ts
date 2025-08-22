@@ -6,10 +6,10 @@ import Promotion from '@/models/Promotion';
 export async function GET() {
   try {
     await connectDB();
-    
+    // Limit to 5 latest active promotions
     const promotions = await Promotion.find({ isActive: true })
       .sort({ createdAt: -1 })
-      .limit(5); // Limit to 5 latest active promotions
+      .limit(5); 
 
     return NextResponse.json({
       success: true,

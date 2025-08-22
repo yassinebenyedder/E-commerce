@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/connectDB';
 import Product from '@/models/Product';
+import Cart from '@/models/Cart';
+import { randomBytes } from 'crypto';
 
 // Cart item interface
 interface CartItem {
@@ -10,61 +12,54 @@ interface CartItem {
   addedAt: Date;
 }
 
-// In-memory cart storage (in production, use database or session storage)
-const cartStorage: { [sessionId: string]: CartItem[] } = {};
-
-// Generate session ID (in production, use proper session management)
-function getSessionId(request: NextRequest): string {
-  return request.headers.get('x-session-id') || 'default-session';
+// Generate or get session ID from cookies, set if missing
+function getOrSetSessionId(request: NextRequest): { sessionId: string; responseCookie?: string } {
+  const cookie = request.cookies.get('session_id');
+  if (cookie && cookie.value) {
+    return { sessionId: cookie.value };
+  }
+  // Generate a secure random session ID
+  const sessionId = randomBytes(16).toString('hex');
+  // Set cookie for 30 days
+  const cookieStr = `session_id=${sessionId}; Path=/; HttpOnly; Max-Age=${60 * 60 * 24 * 30}`;
+  return { sessionId, responseCookie: cookieStr };
 }
 
 // GET /api/cart - Get cart items
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
-    
-    const sessionId = getSessionId(request);
-    const cartItems = cartStorage[sessionId] || [];
-    
-    if (cartItems.length === 0) {
-      return NextResponse.json({
+    const { sessionId, responseCookie } = getOrSetSessionId(request);
+    let cartDoc = await Cart.findOne({ sessionId });
+    const cartItems = cartDoc ? cartDoc.items : [];
+    if (!cartItems || cartItems.length === 0) {
+      const res = NextResponse.json({
         success: true,
-        cart: {
-          items: [],
-          total: 0,
-          itemCount: 0
-        }
+        cart: { items: [], total: 0, itemCount: 0 }
       });
+      if (responseCookie) res.headers.set('Set-Cookie', responseCookie);
+      return res;
     }
-    
     // Fetch product details for cart items
     const populatedItems = [];
     let total = 0;
     let itemCount = 0;
-    
     for (const item of cartItems) {
       const product = await Product.findById(item.productId);
       if (!product) continue;
-      
       let variant = null;
       let price = 0;
-      
       if (item.variantId && product.variants) {
         variant = product.variants.id(item.variantId);
-        if (variant) {
-          price = variant.price;
-        }
+        if (variant) price = variant.price;
       } else if (product.variants && product.variants.length > 0) {
-        // Use default variant if no specific variant selected
         variant = product.variants.find((v: { isDefault: boolean }) => v.isDefault) || product.variants[0];
         price = variant.price;
       }
-      
       if (price > 0) {
         const itemTotal = price * item.quantity;
         total += itemTotal;
         itemCount += item.quantity;
-        
         populatedItems.push({
           productId: item.productId,
           variantId: item.variantId,
@@ -87,16 +82,16 @@ export async function GET(request: NextRequest) {
         });
       }
     }
-    
-    return NextResponse.json({
+    const res = NextResponse.json({
       success: true,
       cart: {
         items: populatedItems,
-        total: Math.round(total * 100) / 100, // Round to 2 decimal places
+        total: Math.round(total * 100) / 100,
         itemCount
       }
     });
-    
+    if (responseCookie) res.headers.set('Set-Cookie', responseCookie);
+    return res;
   } catch (error) {
     console.error('Error fetching cart:', error);
     return NextResponse.json(
@@ -110,26 +105,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    
+    const { sessionId, responseCookie } = getOrSetSessionId(request);
     const body = await request.json();
     const { productId, variantId, quantity = 1 } = body;
-    
     if (!productId) {
       return NextResponse.json(
         { success: false, error: 'Product ID is required' },
         { status: 400 }
       );
     }
-    
-    // Validate quantity
     if (quantity <= 0) {
       return NextResponse.json(
         { success: false, error: 'Quantity must be greater than 0' },
         { status: 400 }
       );
     }
-    
-    // Verify product exists
     const product = await Product.findById(productId);
     if (!product) {
       return NextResponse.json(
@@ -137,8 +127,6 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-    
-    // Verify variant if specified
     let variant = null;
     if (variantId) {
       if (!product.variants) {
@@ -173,7 +161,6 @@ export async function POST(request: NextRequest) {
         );
       }
     } else if (product.variants && product.variants.length > 0) {
-      // Use default variant if no variant specified
       variant = product.variants.find((v: { isDefault: boolean }) => v.isDefault) || product.variants[0];
       if (!variant.inStock || variant.stockQuantity <= 0) {
         return NextResponse.json(
@@ -188,7 +175,6 @@ export async function POST(request: NextRequest) {
         );
       }
     } else {
-      // Product without variants - check product-level stock
       if (product.inStock === false) {
         return NextResponse.json(
           { success: false, error: 'Product is out of stock' },
@@ -196,45 +182,39 @@ export async function POST(request: NextRequest) {
         );
       }
     }
-    
-    const sessionId = getSessionId(request);
-    if (!cartStorage[sessionId]) {
-      cartStorage[sessionId] = [];
+    let cartDoc = await Cart.findOne({ sessionId });
+    if (!cartDoc) {
+      cartDoc = await Cart.create({ sessionId, items: [] });
     }
-    
     // Check if item already exists in cart
-    const existingItemIndex = cartStorage[sessionId].findIndex(item =>
+    const existingItemIndex = cartDoc.items.findIndex((item: any) =>
       item.productId === productId && item.variantId === variantId
     );
-    
     if (existingItemIndex >= 0) {
-      // Update quantity - check if new total exceeds stock
-      const newTotalQuantity = cartStorage[sessionId][existingItemIndex].quantity + quantity;
+      const newTotalQuantity = cartDoc.items[existingItemIndex].quantity + quantity;
       const maxStock = variant ? variant.stockQuantity : Infinity;
-      
       if (variant && newTotalQuantity > maxStock) {
         return NextResponse.json(
-          { success: false, error: `Cannot add ${quantity} more items. Only ${maxStock} total available, you already have ${cartStorage[sessionId][existingItemIndex].quantity} in cart.` },
+          { success: false, error: `Cannot add ${quantity} more items. Only ${maxStock} total available, you already have ${cartDoc.items[existingItemIndex].quantity} in cart.` },
           { status: 400 }
         );
       }
-      
-      cartStorage[sessionId][existingItemIndex].quantity = newTotalQuantity;
+      cartDoc.items[existingItemIndex].quantity = newTotalQuantity;
     } else {
-      // Add new item
-      cartStorage[sessionId].push({
+      cartDoc.items.push({
         productId,
         variantId,
         quantity,
         addedAt: new Date()
       });
     }
-    
-    return NextResponse.json({
+    await cartDoc.save();
+    const res = NextResponse.json({
       success: true,
       message: 'Item added to cart successfully'
     });
-    
+    if (responseCookie) res.headers.set('Set-Cookie', responseCookie);
+    return res;
   } catch (error) {
     console.error('Error adding to cart:', error);
     return NextResponse.json(
@@ -247,48 +227,44 @@ export async function POST(request: NextRequest) {
 // PUT /api/cart - Update cart item quantity
 export async function PUT(request: NextRequest) {
   try {
+    await connectDB();
+    const { sessionId, responseCookie } = getOrSetSessionId(request);
     const body = await request.json();
     const { productId, variantId, quantity } = body;
-    
     if (!productId || quantity < 0) {
       return NextResponse.json(
         { success: false, error: 'Invalid request data' },
         { status: 400 }
       );
     }
-    
-    const sessionId = getSessionId(request);
-    if (!cartStorage[sessionId]) {
+    let cartDoc = await Cart.findOne({ sessionId });
+    if (!cartDoc) {
       return NextResponse.json(
         { success: false, error: 'Cart not found' },
         { status: 404 }
       );
     }
-    
-    const itemIndex = cartStorage[sessionId].findIndex(item =>
+    const itemIndex = cartDoc.items.findIndex((item: any) =>
       item.productId === productId && item.variantId === variantId
     );
-    
     if (itemIndex === -1) {
       return NextResponse.json(
         { success: false, error: 'Item not found in cart' },
         { status: 404 }
       );
     }
-    
     if (quantity === 0) {
-      // Remove item
-      cartStorage[sessionId].splice(itemIndex, 1);
+      cartDoc.items.splice(itemIndex, 1);
     } else {
-      // Update quantity
-      cartStorage[sessionId][itemIndex].quantity = quantity;
+      cartDoc.items[itemIndex].quantity = quantity;
     }
-    
-    return NextResponse.json({
+    await cartDoc.save();
+    const res = NextResponse.json({
       success: true,
       message: 'Cart updated successfully'
     });
-    
+    if (responseCookie) res.headers.set('Set-Cookie', responseCookie);
+    return res;
   } catch (error) {
     console.error('Error updating cart:', error);
     return NextResponse.json(
@@ -301,44 +277,40 @@ export async function PUT(request: NextRequest) {
 // DELETE /api/cart - Clear cart or remove specific item
 export async function DELETE(request: NextRequest) {
   try {
+    await connectDB();
+    const { sessionId, responseCookie } = getOrSetSessionId(request);
     const { searchParams } = new URL(request.url);
     const productId = searchParams.get('productId');
     const variantId = searchParams.get('variantId');
-    
-    const sessionId = getSessionId(request);
-    
+    let cartDoc = await Cart.findOne({ sessionId });
+    if (!cartDoc) {
+      return NextResponse.json(
+        { success: false, error: 'Cart not found' },
+        { status: 404 }
+      );
+    }
     if (!productId) {
       // Clear entire cart
-      cartStorage[sessionId] = [];
+      cartDoc.items = [];
     } else {
-      // Remove specific item
-      if (!cartStorage[sessionId]) {
-        return NextResponse.json(
-          { success: false, error: 'Cart not found' },
-          { status: 404 }
-        );
-      }
-      
-      const itemIndex = cartStorage[sessionId].findIndex(item =>
-        item.productId === productId && 
-        (variantId ? item.variantId === variantId : !item.variantId)
+      const itemIndex = cartDoc.items.findIndex((item: any) =>
+        item.productId === productId && (variantId ? item.variantId === variantId : !item.variantId)
       );
-      
       if (itemIndex === -1) {
         return NextResponse.json(
           { success: false, error: 'Item not found in cart' },
           { status: 404 }
         );
       }
-      
-      cartStorage[sessionId].splice(itemIndex, 1);
+      cartDoc.items.splice(itemIndex, 1);
     }
-    
-    return NextResponse.json({
+    await cartDoc.save();
+    const res = NextResponse.json({
       success: true,
       message: 'Item removed successfully'
     });
-    
+    if (responseCookie) res.headers.set('Set-Cookie', responseCookie);
+    return res;
   } catch (error) {
     console.error('Error removing from cart:', error);
     return NextResponse.json(

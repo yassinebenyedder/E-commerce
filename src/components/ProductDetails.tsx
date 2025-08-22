@@ -54,7 +54,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const productImages = [
     product.image,
     ...(product.images || [])
-  ].filter((image, index, array) => array.indexOf(image) === index); // Remove duplicates
+  ].filter((image, index, array) => array.indexOf(image) === index);
 
   const handleQuantityChange = (change: number) => {
     const newQuantity = quantity + change;

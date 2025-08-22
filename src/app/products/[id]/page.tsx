@@ -44,11 +44,11 @@ async function getProduct(id: string): Promise<IProduct | null> {
     
     if (product) {
       return {
-        ...(product as any), // eslint-disable-line @typescript-eslint/no-explicit-any
-        _id: (product as any)._id.toString(), // eslint-disable-line @typescript-eslint/no-explicit-any
-        rating: (product as any).rating || 0, // eslint-disable-line @typescript-eslint/no-explicit-any
-        reviewCount: (product as any).reviewCount || 0, // eslint-disable-line @typescript-eslint/no-explicit-any
-        variants: (product as any).variants?.map((variant: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
+        ...(product as any),
+        _id: (product as any)._id.toString(),
+        rating: (product as any).rating || 0,
+        reviewCount: (product as any).reviewCount || 0,
+        variants: (product as any).variants?.map((variant: any) => ({
           ...variant,
           _id: variant._id?.toString()
         })) || []
