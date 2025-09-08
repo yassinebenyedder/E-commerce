@@ -109,7 +109,7 @@ export default function AdminPage() {
               Connexion Administrateur
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              Veuillez vous connecter pour accéder au panneau d'administration
+              Veuillez vous connecter pour accéder au panneau d&apos;administration
             </p>
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleLogin}>
@@ -185,7 +185,7 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div>
-              <h1 className="text-xl font-semibold text-gray-900">Panneau d'Administration</h1>
+              <h1 className="text-xl font-semibold text-gray-900">Panneau d&apos;Administration</h1>
               <p className="text-sm text-gray-600">Bienvenue, {admin?.name}</p>
             </div>
             <button
