@@ -164,8 +164,8 @@ export default function CartPage() {
                   <span>{total.toFixed(2)} DT</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Livraison</span>
-                  <span className={total >= 50 ? 'text-green-600 font-medium' : ''}>{total >= 50 ? 'Gratuite' : '5.00 DT'}</span>
+                    <span>Livraison</span>
+                    <span className={total >= 50 ? 'text-green-600 font-medium' : ''}>{total >= 50 ? 'Gratuite' : '8.00 DT'}</span>
                 </div>
                 {total >= 50 && (
                   <div className="flex justify-center">
@@ -184,7 +184,7 @@ export default function CartPage() {
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-lg font-semibold text-gray-900">
                     <span className="text-black">Total</span>
-                    <span>{(total + (total >= 50 ? 0 : 5)).toFixed(2)} DT</span>
+                    <span>{(total + (total >= 50 ? 0 : 8)).toFixed(2)} DT</span>
                   </div>
                 </div>
               </div>
