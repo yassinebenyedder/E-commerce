@@ -44,7 +44,7 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
     try {
       // Calculate total from cart items
       const subtotal = cartItems.reduce((sum, item) => sum + item.itemTotal, 0);
-      const deliveryFee = subtotal >= 50 ? 0 : 5;
+      const deliveryFee = subtotal >= 50 ? 0 : 8;
       const finalTotal = subtotal + deliveryFee;
 
       // Create order object
@@ -142,7 +142,7 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Livraison</span>
                     <span className={`text-gray-900 ${cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 'text-green-600 font-medium' : ''}`}>
-                      {cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 'Gratuite' : '5.00 DT'}
+                      {cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 'Gratuite' : '8.00 DT'}
                     </span>
                   </div>
                   {cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 && (
@@ -156,7 +156,7 @@ export default function CheckoutModal({ isOpen, onClose, cartItems }: CheckoutMo
                     <span className='text-black'>Total</span>
                     <span className='text-black'>
                       {(cartItems.reduce((sum, item) => sum + item.itemTotal, 0) + 
-                        (cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 0 : 5)).toFixed(2)} DT
+                        (cartItems.reduce((sum, item) => sum + item.itemTotal, 0) >= 50 ? 0 : 8)).toFixed(2)} DT
                     </span>
                   </div>
                 </div>
