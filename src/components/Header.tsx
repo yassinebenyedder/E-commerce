@@ -148,7 +148,7 @@ export default function Header() {
       {/* Main Header */}
       <header className="bg-white shadow-sm border-b border-gray-200 relative z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
           <div className="flex items-center">
             <Link 
@@ -158,7 +158,7 @@ export default function Header() {
               <Image 
                 src={logo} 
                 alt="Ben Yedder Parfums" 
-                className="h-12 w-auto rounded-lg"
+                className="h-10 sm:h-12 w-auto rounded-lg"
                 height={48}
                 priority
               />
