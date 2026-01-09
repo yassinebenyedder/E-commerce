@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { ShoppingCart, Search, Menu, X, ChevronRight } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import logo from '../../public/assets/logo.jpg';
 
 interface Category {
   _id: string;
@@ -151,14 +153,15 @@ export default function Header() {
           <div className="flex items-center">
             <Link 
               href="/" 
-              className="group flex flex-col justify-center items-center py-2 px-3 rounded-lg hover:bg-gray-50 transition-all duration-200"
+              className="group py-2 px-3 hover:opacity-80 transition-opacity duration-200"
             >
-              <span className="text-lg sm:text-2xl font-black text-gray-900 group-hover:text-gray-700 transition-colors duration-200 tracking-tight text-center">
-                Ben Yedder
-              </span>
-              <span className="text-[10px] sm:text-xs font-semibold text-gray-900 uppercase tracking-[0.2em] -mt-1 group-hover:text-gray-700 transition-colors duration-200 text-center">
-                Parfums
-              </span>
+              <Image 
+                src={logo} 
+                alt="Ben Yedder Parfums" 
+                className="h-12 w-auto rounded-lg"
+                height={48}
+                priority
+              />
             </Link>
           </div>
 
